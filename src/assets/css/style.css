@@ -1,0 +1,74 @@
+/**
+ * public
+ */
+.w1200 {
+  width: 1200px;
+  margin: 0 auto;
+}
+.img_wrapper {
+  display: block;
+  position: relative;
+  /*background-image: url(../img/loading.gif);*/
+  background-position: center;
+  background-size: 30px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.img {
+  display: block;
+  width: 100%;
+  border: none;
+}
+.text_overflow_cut {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.tc {
+  text-align: center;
+}
+.tr {
+  text-align: right;
+}
+.clearFix::after {
+  content: '';
+  height: 0;
+  visibility: hidden;
+  clear: both;
+  display: block;
+}
+.clearFix {
+  zoom: 1;
+}
+
+/**
+ * scrollbar style
+ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb:vertical {
+  height: 6px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+::-webkit-scrollbar-thumb:horizontal {
+  width: 6px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/**
+ * app style
+ */
+#root {
+  height: 100%;
+}
