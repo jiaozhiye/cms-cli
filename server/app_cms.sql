@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.08 (64 bit)
+SQLyog Ultimate v12.08 (32 bit)
 MySQL - 5.5.61 : Database - app_cms
 *********************************************************************
 */
@@ -28,17 +28,18 @@ CREATE TABLE `article` (
   `desc` varchar(500) CHARACTER SET utf8 DEFAULT NULL COMMENT '文章描述',
   `content_id` varchar(64) CHARACTER SET utf8 DEFAULT NULL COMMENT '内容ID',
   `img_path` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '图片路径',
+  `video_url` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '视频地址',
   `sort` int(11) unsigned DEFAULT NULL COMMENT '排序值',
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
-  `creator` varchar(64) CHARACTER SET utf8 DEFAULT NULL COMMENT '创建者ID',
-  `deleted` char(1) CHARACTER SET utf8 DEFAULT '0' COMMENT '逻辑删除',
+  `creator` varchar(64) CHARACTER SET utf8 NOT NULL COMMENT '创建者ID',
+  `deleted` char(1) CHARACTER SET utf8 NOT NULL DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `article` */
 
-insert  into `article`(`id`,`cid`,`title`,`pinyin`,`desc`,`content_id`,`img_path`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('cjftl08l2000148g7rap089nh','cjfmhuxyx000064g7k0s1k043','商品名称1',NULL,'商品名称1商品名称1','cjftl08l0000048g780hz8nwh','/uploads/article/20180410072725_2834.jpg',11,'2018-04-11 00:00:00','2018-04-10 07:27:35','1','0'),('cjg27ytjd0001fog781azs663','cjg1ner990001bwg73bolrm2t','asdasd',NULL,'asd','cjg27ytjb0000fog7ur457gf6','/uploads/article/20180416083222_6951.png',11,'2018-04-16 08:32:29','2018-04-16 08:32:29','1','0'),('cjgbouy7u000160g7ixhniynm','cjfmhuxyx000064g7k0s1k043','qwe',NULL,'qwe','cjgbouy7u000060g7ydn5vwua','',11,'2018-04-23 11:35:18','2018-04-23 11:35:17','1','0'),('cjgbovg40000360g7qnnjkz0n','cjfmhuxyx000064g7k0s1k043','qweqwe',NULL,'qweqwe','cjgbovg3x000260g78pxi0aau','/uploads/article/20180423113535_7415.jpg',22,'2018-04-19 00:00:00','2018-04-23 11:35:41','1','0'),('cjiny0msy0001okg76zsthy9g','cjfmhuxyx000064g7k0s1k043','qwe',NULL,'qwe','cjiny0msy0000okg7c0dkbb76','',NULL,'2018-06-21 10:44:18','2018-06-21 10:44:18','1','0'),('cjiny1y3b0001u4g70qvyv6zf','cjfmhuxyx000064g7k0s1k043','qwe',NULL,'qwe','cjiny1y3b0000u4g7d10l1usl','',NULL,'2018-06-21 10:45:19','2018-06-21 10:45:19','1','0'),('cjinycitd0001b0g7z9c3zplr','cjfo02td80000w0g7gi0kwth7','asd',NULL,'asd','cjinycitd0000b0g77d55qzya','',10,'2018-06-21 10:53:33','2018-06-21 10:53:33','1','0'),('cjinzkq2g0001z4g7813g4r22','cjg1ner990001bwg73bolrm2t','eee',NULL,'eee','cjinzkq2e0000z4g7n6czeouy','',32,'2018-06-21 11:27:55','2018-06-21 11:27:55','1','0');
+insert  into `article`(`id`,`cid`,`title`,`pinyin`,`desc`,`content_id`,`img_path`,`video_url`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('cjftl08l2000148g7rap089nh','cjfmhuxyx000064g7k0s1k043','商品名称1',NULL,'商品名称1商品名称1','cjftl08l0000048g780hz8nwh','/uploads/article/20180410072725_2834.jpg',NULL,11,'2018-04-11 00:00:00','2018-04-10 07:27:35','1','0'),('cjg27ytjd0001fog781azs663','cjg1ner990001bwg73bolrm2t','asdasd',NULL,'asd','cjg27ytjb0000fog7ur457gf6','/uploads/article/20180416083222_6951.png',NULL,11,'2018-04-16 08:32:29','2018-04-16 08:32:29','1','0'),('cjgbouy7u000160g7ixhniynm','cjfmhuxyx000064g7k0s1k043','qwe',NULL,'qwe','cjgbouy7u000060g7ydn5vwua','',NULL,11,'2018-04-23 11:35:18','2018-04-23 11:35:17','1','0'),('cjgbovg40000360g7qnnjkz0n','cjfmhuxyx000064g7k0s1k043','qweqwe',NULL,'qweqwe','cjgbovg3x000260g78pxi0aau','/uploads/article/20180423113535_7415.jpg',NULL,22,'2018-04-19 00:00:00','2018-04-23 11:35:41','1','0'),('cjiny0msy0001okg76zsthy9g','cjfmhuxyx000064g7k0s1k043','qwe',NULL,'qwe','cjiny0msy0000okg7c0dkbb76','',NULL,NULL,'2018-06-21 10:44:18','2018-06-21 10:44:18','1','0'),('cjiny1y3b0001u4g70qvyv6zf','cjfmhuxyx000064g7k0s1k043','qwe',NULL,'qwe','cjiny1y3b0000u4g7d10l1usl','',NULL,NULL,'2018-06-21 10:45:19','2018-06-21 10:45:19','1','0'),('cjinycitd0001b0g7z9c3zplr','cjfo02td80000w0g7gi0kwth7','asd',NULL,'asd','cjinycitd0000b0g77d55qzya','',NULL,10,'2018-06-21 10:53:33','2018-06-21 10:53:33','1','0'),('cjinzkq2g0001z4g7813g4r22','cjg1ner990001bwg73bolrm2t','eee',NULL,'eee','cjinzkq2e0000z4g7n6czeouy','',NULL,32,'2018-06-21 11:27:55','2018-06-21 11:27:55','1','0');
 
 /*Table structure for table `classify` */
 
@@ -118,7 +119,7 @@ CREATE TABLE `role` (
 
 /*Data for the table `role` */
 
-insert  into `role`(`id`,`name`,`desc`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('1','超级管理员','超级管理员',10,'2019-03-26 14:59:45','2019-03-26 15:14:41','1','0');
+insert  into `role`(`id`,`name`,`desc`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('1','超级管理员','超级管理员',1,'2019-03-26 22:00:56','2019-03-26 15:14:41','1','0');
 
 /*Table structure for table `role_menu` */
 
@@ -156,8 +157,8 @@ CREATE TABLE `site_config` (
   `records` varchar(200) CHARACTER SET utf8 DEFAULT NULL COMMENT '备案信息',
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
-  `creator` varchar(64) CHARACTER SET utf8 DEFAULT NULL COMMENT '创建者ID',
-  `deleted` char(1) CHARACTER SET utf8 DEFAULT '0' COMMENT '逻辑删除',
+  `creator` varchar(64) CHARACTER SET utf8 NOT NULL COMMENT '创建者ID',
+  `deleted` char(1) CHARACTER SET utf8 NOT NULL DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

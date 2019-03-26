@@ -29,21 +29,20 @@ class LoginService extends Service {
     );
 
     // console.log(rows)
-    if (rows.length) {
-      const [userInfo] = rows;
-      // 下发 token 信息
-      const token = ctx.helper.signToken({ name: userInfo.name }, this.config.auth.secret);
-      // role_id 存入 session
-      ctx.session.role_id = userInfo.role_id;
-      return {
-        id: userInfo.id,
-        name: userInfo.name,
-        roles: [userInfo.roles],
-        token
-      };
-    } else {
+    if (!rows.length) {
       return false;
     }
+    const [userInfo] = rows;
+    // 下发 token 信息
+    const token = ctx.helper.signToken({ name: userInfo.name }, this.config.auth.secret);
+    // role_id 存入 session
+    ctx.session.role_id = userInfo.role_id;
+    return {
+      id: userInfo.id,
+      name: userInfo.name,
+      roles: [userInfo.roles],
+      token
+    };
   }
 }
 

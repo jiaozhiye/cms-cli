@@ -11,38 +11,44 @@ class PageTable extends Component {
     loading: false
   };
 
-  componentWillReceiveProps({ params }) {
-    if (JSON.stringify(params) !== JSON.stringify(this.props.params)) {
-      // toperFilter 条件变化时
-      this.getRecords(params, true);
-    }
-  }
-
   componentDidMount() {
     this.getRecords();
   }
 
-  getRecords = async (params = this.props.params, isTopSearch = false) => {
+  componentWillReceiveProps(nextProps) {
+    if (JSON.stringify(nextProps.params) !== JSON.stringify(this.props.params)) {
+      if (!nextProps.params._) {
+        this.paramsChange();
+      } else {
+        delete nextProps.params._;
+        this.getRecords();
+      }
+    }
+  }
+
+  getRecords = async () => {
     this.setState({ loading: true });
     const { pagination, filters } = this.state;
-    const res = await this.props.fetch({
+    const { fetch, params, onTableChange } = this.props;
+    const res = await fetch({
       pageNum: pagination.current,
       pageSize: pagination.pageSize,
       ...params,
       ...filters
     });
     if (res.code === 1) {
-      const pager = { ...this.state.pagination };
-      pager.total = res.totalRow;
-      // 如果是头部条件(toperFilter)搜索，页码重置为 1
-      if (isTopSearch) {
-        pager.current = 1;
-      }
+      const pager = { ...pagination, ...{ total: res.totalRow } };
       this.setState({ data: res.data, pagination: pager });
       // 执行回掉
-      this.props.onTableChange && this.props.onTableChange(res);
+      onTableChange && onTableChange(res);
     }
     this.setState({ loading: false });
+  };
+
+  // toperFilter 条件变化时
+  paramsChange = () => {
+    const pagination = { ...this.state.pagination, ...{ current: 1 } };
+    this.setState({ pagination }, this.getRecords);
   };
 
   onChange = (pagination, filters, sorter) => {
@@ -58,8 +64,7 @@ class PageTable extends Component {
       filter[filterKey] = filters[key];
     }
     // 分页
-    const pager = { ...this.state.pagination };
-    pager.current = pagination.current;
+    const pager = { ...this.state.pagination, ...{ current: pagination.current } };
     this.setState({ pagination: pager, filters: { sort, ...filter } }, this.getRecords);
   };
 

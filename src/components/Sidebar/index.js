@@ -51,7 +51,7 @@ class Sidebar extends Component {
       return (
         <Menu.Item key={item.key}>
           <Link to={{ pathname: item.key, state: { title: item.title } }}>
-            {!item.icon ? null : <Icon type={item.icon} />}
+            {item.icon ? <Icon type={item.icon} /> : null}
             <span>{item.title}</span>
           </Link>
         </Menu.Item>
