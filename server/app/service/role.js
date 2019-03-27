@@ -4,7 +4,11 @@ const uuid = require('uuid/v4');
 const Service = require('egg').Service;
 
 class RoleService extends Service {
-  async getRole(name) {
+  async getRole(options) {
+    const ctx = this.ctx;
+    // 角色名
+    const name = options.name ? ` AND t1.name LIKE ${ctx.helper.escape(`%${options.name}%`)}` : '';
+
     const rows = await this.app.mysql.query(
       `
       SELECT 
@@ -14,15 +18,14 @@ class RoleService extends Service {
         FROM_UNIXTIME(UNIX_TIMESTAMP(t1.modify_time), '%Y-%m-%d %H:%i:%s') AS modify_time 
       FROM
         role t1 
-      WHERE t1.name LIKE ?
-        AND deleted = ? 
+      WHERE deleted = ? ${name}
       ORDER BY t1.sort ASC 
     `,
-      [`%${name}%`, '0']
+      ['0']
     );
     return rows;
   }
-  async getRoleById(id) {
+  async getone(id) {
     const rows = await this.app.mysql.query(
       `
       SELECT 
@@ -72,7 +75,6 @@ class RoleService extends Service {
     return rows.affectedRows;
   }
   async delete(id) {
-    console.log(id);
     const rows = await this.app.mysql.query(
       `
       UPDATE role t1 SET t1.deleted = ? WHERE t1.id = ?

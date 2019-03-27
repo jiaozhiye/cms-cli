@@ -5,12 +5,12 @@ import { bindActionCreators } from 'redux';
 import actionCreators from '@/store/actions';
 
 import utils from '@/utils';
-import { getUserList } from '@/api';
+import { getUserList, addUserRecord, modUserRecord, delUserRecord } from '@/api';
 
 import TopFilter from '@/components/TopFilter';
 import ColumnFilter from '@/components/ColumnFilter';
 import FilterTable from '@/components/Table/filterTable';
-import DemoPanel from '@/components/DemoPanel';
+import UserPanel from '@/components/UserPanel';
 
 import css from './index.module.less';
 
@@ -25,7 +25,7 @@ import { Card, Drawer, Button, Icon, Divider, Popconfirm, message } from 'antd';
     actions: bindActionCreators(actionCreators, dispatch)
   })
 )
-class Demo extends Component {
+class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,23 +53,17 @@ class Demo extends Component {
     return [
       {
         type: 'SELECT',
-        label: '角色',
-        fieldName: 'role',
+        label: '所属角色',
+        fieldName: 'role_id',
         placeholder: '全部',
-        style: { width: 100 },
+        style: { width: 120 },
         list: roles
-      },
-      {
-        type: 'RANGE_DATE',
-        label: '订单周期',
-        fieldName: 'range_date',
-        style: { width: 240 }
       },
       {
         type: 'INPUT',
         label: '搜索',
-        fieldName: 'input',
-        placeholder: '请输入...',
+        fieldName: 'name',
+        placeholder: '请输入用户名/拼音头...',
         style: { width: 200 }
       }
     ];
@@ -80,32 +74,38 @@ class Demo extends Component {
     const { sex } = props;
     return [
       {
-        title: '名称',
-        dataIndex: 'name',
-        filter: true,
-        filterKey: 'name_1',
-        filterType: 'input',
-        sorter: true
+        title: '登录名',
+        dataIndex: 'username'
+      },
+      {
+        title: '昵称',
+        dataIndex: 'name'
+      },
+      {
+        title: '角色',
+        dataIndex: 'role_name'
       },
       {
         title: '性别',
         dataIndex: 'sex',
         filter: true,
-        filterKey: 'sex_1',
+        filterKey: 'sex',
         filterType: 'checkbox',
         filterItems: utils.createFilterList(sex),
-        sorter: true
+        render: (text, record) => <span>{sex.find(item => item.value === text).name}</span>
       },
       {
         title: '手机号',
-        dataIndex: 'phone',
-        filter: true,
-        filterKey: 'phone_1',
-        filterType: 'daterange'
+        dataIndex: 'phone'
       },
       {
         title: '邮箱',
         dataIndex: 'email'
+      },
+      {
+        title: '修改时间',
+        dataIndex: 'modify_time',
+        sorter: true
       },
       {
         title: '操作',
@@ -135,26 +135,31 @@ class Demo extends Component {
   saveHandler = async formDate => {
     const { type } = this.state.formPanel;
     console.log(type, formDate);
+    let res;
     if (type === 'add') {
-      // 新增
+      res = await addUserRecord(formDate);
     }
     if (type === 'edit') {
-      // 更新
+      res = await modUserRecord(formDate);
     }
-    message.success('保存成功！');
-    this.closeDrawer();
-    this.reloadHandler();
+    if (res.code === 1) {
+      message.success(res.message);
+      this.closeDrawer();
+      this.reloadHandler();
+    }
   };
 
   // 删除
   deleteHandler = async id => {
-    message.success('删除成功！');
-    this.reloadHandler();
+    const res = await delUserRecord({ id });
+    if (res.code === 1) {
+      message.success(res.message);
+      this.reloadHandler();
+    }
   };
 
   // 头部搜索方法
   searchHandler = params => {
-    // console.log(params);
     this.setState({ params });
   };
 
@@ -174,16 +179,16 @@ class Demo extends Component {
     const formPanel = { type };
     if (type === 'add') {
       // 新增
-      formPanel.title = '新增员工';
+      formPanel.title = '新增用户';
     }
     if (type === 'edit') {
       // 编辑
-      formPanel.title = '编辑员工';
+      formPanel.title = '编辑用户';
       formPanel.uid = id;
     }
     if (type === 'show') {
       // 查看
-      formPanel.title = '查看员工';
+      formPanel.title = '查看用户';
       formPanel.uid = id;
     }
     this.setState({ visible: true, formPanel });
@@ -211,11 +216,11 @@ class Demo extends Component {
         </Card>
         <FilterTable columns={columns} params={params} fetch={fetchApiFunc} onTableChange={val => {}} />
         <Drawer visible={visible} destroyOnClose title={formPanel.title} width={600} onClose={this.closeDrawer}>
-          <DemoPanel {...formPanel} onSave={formDate => this.saveHandler(formDate)} />
+          <UserPanel {...formPanel} onSave={formDate => this.saveHandler(formDate)} />
         </Drawer>
       </>
     );
   }
 }
 
-export default Demo;
+export default User;

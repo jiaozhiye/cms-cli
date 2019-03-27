@@ -11,6 +11,14 @@ class MenuController extends Controller {
       data: res
     };
   }
+  async getMenuTree() {
+    const ctx = this.ctx;
+    const res = await this.service.menu.getTree();
+    ctx.body = {
+      code: 1,
+      data: res
+    };
+  }
 }
 
 module.exports = MenuController;

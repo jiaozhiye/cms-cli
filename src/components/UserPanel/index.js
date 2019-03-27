@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getUserRecord } from '@/api';
 import css from './index.module.less';
 
-import { Form, Button, Input, Select, Radio } from 'antd';
+import { Form, Button, Input, Select, Radio, InputNumber } from 'antd';
 const FormItem = Form.Item;
 const { Option } = Select;
 
@@ -28,8 +28,8 @@ class DemoPanel extends Component {
 
   getRecord = async () => {
     const res = await getUserRecord({ id: this.props.uid });
-    if (res.err === 1) {
-      this.setState({ data: res.info });
+    if (res.code === 1) {
+      this.setState({ data: res.data });
     }
   };
 
@@ -70,28 +70,28 @@ class DemoPanel extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit} style={{ paddingBottom: 30 }}>
-        <FormItem label="帐号" {...formItemLayout}>
+        <FormItem label="登陆名" {...formItemLayout}>
           {isShowItem
             ? data.username
             : getFieldDecorator('username', {
                 initialValue: data.username,
-                rules: [{ required: true, message: '请输入帐号!' }]
-              })(<Input placeholder="帐号..." />)}
+                rules: [{ required: true, message: '请输入登陆名!' }]
+              })(<Input placeholder="登陆名..." />)}
         </FormItem>
-        <FormItem label="密码" {...formItemLayout}>
+        <FormItem label="登陆密码" {...formItemLayout}>
           {isShowItem
-            ? ''
+            ? '******'
             : getFieldDecorator('password', {
                 rules: [{ required: true, message: '请输入密码!' }]
               })(<Input placeholder="密码..." />)}
         </FormItem>
-        <FormItem label="姓名" {...formItemLayout}>
+        <FormItem label="昵称" {...formItemLayout}>
           {isShowItem
             ? data.name
             : getFieldDecorator('name', {
                 initialValue: data.name,
-                rules: [{ required: true, message: '请输入姓名!' }]
-              })(<Input placeholder="姓名..." />)}
+                rules: [{ required: true, message: '请输入昵称!' }]
+              })(<Input placeholder="昵称..." />)}
         </FormItem>
         <FormItem label="所属角色" {...formItemLayout}>
           {isShowItem
@@ -113,7 +113,8 @@ class DemoPanel extends Component {
           {isShowItem
             ? data.sex_name
             : getFieldDecorator('sex', {
-                initialValue: data.sex
+                initialValue: data.sex,
+                rules: [{ required: true, message: '请选择性别!' }]
               })(
                 <Radio.Group>
                   {sex.map(item => (
@@ -128,7 +129,8 @@ class DemoPanel extends Component {
           {isShowItem
             ? data.phone
             : getFieldDecorator('phone', {
-                initialValue: data.phone
+                initialValue: data.phone,
+                rules: [{ required: true, message: '请输入手机号!' }]
               })(<Input placeholder="手机号..." />)}
         </FormItem>
         <FormItem label="邮箱" {...formItemLayout}>
@@ -138,6 +140,14 @@ class DemoPanel extends Component {
                 initialValue: data.email,
                 rules: [{ type: 'email', message: '邮箱格式不正确!' }]
               })(<Input placeholder="邮箱..." />)}
+        </FormItem>
+        <FormItem label="排序" {...formItemLayout}>
+          {isShowItem
+            ? data.sort
+            : getFieldDecorator('sort', {
+                initialValue: data.sort || 1,
+                rules: [{ required: true, message: '请输入排序值!' }]
+              })(<InputNumber min={1} max={10000} />)}
         </FormItem>
         {isShowItem ? null : (
           <div

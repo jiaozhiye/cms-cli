@@ -2,9 +2,6 @@ import { DO_LOGIN, CREATE_MENU, LOADING_STATE, DICT_DATA } from '../types';
 import { doLogin, getSideMenu, getAllDict } from '@/api';
 import dictData from '@/config/dictData';
 import { sleep } from '@/assets/js/util';
-// 测试数据
-import menuList from '@/config/sideMenu';
-import dictDemo from '@/config/dictDemo';
 
 /**
  * 登录
@@ -36,13 +33,6 @@ export const createSideMenu = () => async (dispatch, getState) => {
   const res = await getSideMenu();
   // await sleep(500);
 
-  // ============================
-  // dispatch({
-  //   type: CREATE_MENU,
-  //   payload: menuList
-  // });
-  // ============================
-
   if (res.code === 1) {
     dispatch({
       type: CREATE_MENU,
@@ -70,14 +60,6 @@ export const createDictData = () => async (dispatch, getState) => {
   } = getState();
   if (Object.keys(dict).length) return;
   const res = await getAllDict();
-  // await sleep(500);
-
-  // ============================
-  dispatch({
-    type: DICT_DATA,
-    payload: { ...dictData, ...dictDemo }
-  });
-  // ============================
 
   if (res.code === 1) {
     dispatch({

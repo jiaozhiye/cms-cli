@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getRoleById } from '@/api';
+import { getRoleRecord } from '@/api';
 import css from './index.module.less';
 
 import { Form, Button, Input, InputNumber } from 'antd';
@@ -24,7 +24,7 @@ class DemoPanel extends Component {
   }
 
   getRecord = async () => {
-    const res = await getRoleById({ id: this.props.uid });
+    const res = await getRoleRecord({ id: this.props.uid });
     if (res.code === 1) {
       this.setState({ data: res.data });
     }

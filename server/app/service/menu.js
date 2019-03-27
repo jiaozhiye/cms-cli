@@ -30,6 +30,27 @@ class MenuService extends Service {
     );
     return ctx.helper.createMenuTree(rows);
   }
+  async getTree() {
+    const ctx = this.ctx;
+    const rows = await this.app.mysql.query(
+      `
+      SELECT 
+        t1.id,
+        t1.pid,
+        t1.name,
+        t1.url,
+        t1.icon,
+        t1.sort,
+        FROM_UNIXTIME(UNIX_TIMESTAMP(t1.modify_time), '%Y-%m-%d %H:%i:%s') AS modify_time 
+      FROM
+        menu t1 
+      WHERE t1.deleted = ? 
+      ORDER BY t1.sort ASC 
+    `,
+      ['0']
+    );
+    return ctx.helper.createMenuTree(rows);
+  }
 }
 
 module.exports = MenuService;

@@ -24,7 +24,7 @@ module.exports = {
     let _root_ = { id: '0', children: [] };
     (function fn(target) {
       for (let i = 0; i < arr.length; i++) {
-        if (arr[i].pid == target.id) {
+        if (arr[i].pid === target.id) {
           // 递归调用
           fn(arr[i]);
           // =======
@@ -35,5 +35,18 @@ module.exports = {
       }
     })(_root_);
     return _root_.children;
+  },
+  createPagination(num, size) {
+    const offset = (num - 1) * size;
+    return ` LIMIT ${offset}, ${size}`;
+  },
+  escape(params) {
+    if (Array.isArray(params) && params.length) {
+      return params.map(item => this.app.mysql.escape(item));
+    }
+    if (typeof params === 'string' && params !== '') {
+      return this.app.mysql.escape(params);
+    }
+    return '';
   }
 };

@@ -18,8 +18,10 @@ class PageTable extends Component {
   componentWillReceiveProps(nextProps) {
     if (JSON.stringify(nextProps.params) !== JSON.stringify(this.props.params)) {
       if (!nextProps.params._) {
+        // toperFilter 条件变化
         this.paramsChange();
       } else {
+        // 执行刷新
         delete nextProps.params._;
         this.getRecords();
       }
@@ -40,7 +42,7 @@ class PageTable extends Component {
       const pager = { ...pagination, ...{ total: res.totalRow } };
       this.setState({ data: res.data, pagination: pager });
       // 执行回掉
-      onTableChange && onTableChange(res);
+      onTableChange && onTableChange(res.data);
     }
     this.setState({ loading: false });
   };

@@ -10,6 +10,10 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 class TopFilter extends Component {
+  componentDidMount() {
+    this.initial();
+  }
+
   INPUT = option => {
     const { getFieldDecorator } = this.props.form;
     const { label, fieldName, initialValue, style = {}, placeholder } = option;
@@ -80,24 +84,38 @@ class TopFilter extends Component {
     });
   };
 
+  initial = () => {
+    const { data, onSearch } = this.props;
+    const params = {};
+    data.forEach(item => (params[item.fieldName] = item.initialValue));
+    onSearch(params);
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { data } = this.props;
+        const { data, onSearch } = this.props;
         data.forEach(item => {
           const val = values[item.fieldName];
           if (item.type === 'DATE') {
-            values[item.fieldName] = !val ? '' : dateFormat(val);
+            values[item.fieldName] = this.isEmpty(val) ? dateFormat(val) : '';
           } else if (item.type === 'RANGE_DATE') {
-            values[item.fieldName] = !val ? [] : val.map(date => dateFormat(date));
+            values[item.fieldName] = this.isEmpty(val) ? val.map(date => dateFormat(date)) : ['', ''];
           } else {
-            values[item.fieldName] = !val ? '' : val;
+            values[item.fieldName] = this.isEmpty(val) ? val : '';
           }
         });
-        this.props.onSearch(values);
+        onSearch(values);
       }
     });
+  };
+
+  isEmpty = val => {
+    if (Array.isArray(val)) {
+      return Boolean(val.length);
+    }
+    return Boolean(val);
   };
 
   handleReset = e => {

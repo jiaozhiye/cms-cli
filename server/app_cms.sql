@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.08 (32 bit)
+SQLyog Ultimate v12.08 (64 bit)
 MySQL - 5.5.61 : Database - app_cms
 *********************************************************************
 */
@@ -119,7 +119,7 @@ CREATE TABLE `role` (
 
 /*Data for the table `role` */
 
-insert  into `role`(`id`,`name`,`desc`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('1','超级管理员','超级管理员',1,'2019-03-26 22:00:56','2019-03-26 15:14:41','1','0');
+insert  into `role`(`id`,`name`,`desc`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('1','超级管理员','超级管理员',1,'2019-03-26 22:00:56','2019-03-26 15:14:41','1','0'),('24567e6c-dd7c-4021-bd1f-c73fcbe86d27','1','1',11,'2019-03-27 09:57:24','2019-03-27 09:56:57','1','0');
 
 /*Table structure for table `role_menu` */
 
@@ -179,6 +179,7 @@ CREATE TABLE `user` (
   `sex` char(1) CHARACTER SET utf8 NOT NULL DEFAULT '0' COMMENT '性别',
   `phone` varchar(11) CHARACTER SET utf8 DEFAULT NULL COMMENT '手机号',
   `email` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '邮箱',
+  `sort` int(11) unsigned DEFAULT NULL COMMENT '排序',
   `role_id` varchar(64) CHARACTER SET utf8 NOT NULL COMMENT '角色id',
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
@@ -188,7 +189,7 @@ CREATE TABLE `user` (
 
 /*Data for the table `user` */
 
-insert  into `user`(`id`,`username`,`password`,`name`,`pinyin`,`sex`,`phone`,`email`,`role_id`,`modify_time`,`create_time`,`deleted`) values ('1','qwe','3675ac5c859c806b26e02e6f9fd62192','大海','dh','0','13012345678','123456@163.com','1','2018-03-31 02:08:37','2019-03-26 15:11:16','0');
+insert  into `user`(`id`,`username`,`password`,`name`,`pinyin`,`sex`,`phone`,`email`,`sort`,`role_id`,`modify_time`,`create_time`,`deleted`) values ('1','qwe','3675ac5c859c806b26e02e6f9fd62192','大海','dh','0','13012345678','123456@163.com',NULL,'1','2018-03-31 02:08:37','2019-03-26 15:11:16','0');
 
 /* Procedure structure for procedure `ii` */
 
