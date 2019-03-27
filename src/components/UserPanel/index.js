@@ -76,14 +76,14 @@ class DemoPanel extends Component {
             : getFieldDecorator('username', {
                 initialValue: data.username,
                 rules: [{ required: true, message: '请输入登陆名!' }]
-              })(<Input placeholder="登陆名..." />)}
+              })(<Input placeholder="登陆名" />)}
         </FormItem>
         <FormItem label="登陆密码" {...formItemLayout}>
           {isShowItem
             ? '******'
             : getFieldDecorator('password', {
                 rules: [{ required: true, message: '请输入密码!' }]
-              })(<Input placeholder="密码..." />)}
+              })(<Input placeholder="密码" />)}
         </FormItem>
         <FormItem label="昵称" {...formItemLayout}>
           {isShowItem
@@ -91,7 +91,7 @@ class DemoPanel extends Component {
             : getFieldDecorator('name', {
                 initialValue: data.name,
                 rules: [{ required: true, message: '请输入昵称!' }]
-              })(<Input placeholder="昵称..." />)}
+              })(<Input placeholder="昵称" />)}
         </FormItem>
         <FormItem label="所属角色" {...formItemLayout}>
           {isShowItem
@@ -131,7 +131,7 @@ class DemoPanel extends Component {
             : getFieldDecorator('phone', {
                 initialValue: data.phone,
                 rules: [{ required: true, message: '请输入手机号!' }]
-              })(<Input placeholder="手机号..." />)}
+              })(<Input placeholder="手机号" />)}
         </FormItem>
         <FormItem label="邮箱" {...formItemLayout}>
           {isShowItem
@@ -139,7 +139,7 @@ class DemoPanel extends Component {
             : getFieldDecorator('email', {
                 initialValue: data.email,
                 rules: [{ type: 'email', message: '邮箱格式不正确!' }]
-              })(<Input placeholder="邮箱..." />)}
+              })(<Input placeholder="邮箱" />)}
         </FormItem>
         <FormItem label="排序" {...formItemLayout}>
           {isShowItem

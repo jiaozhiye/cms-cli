@@ -37,6 +37,8 @@ class LoginService extends Service {
     const token = ctx.helper.signToken({ name: userInfo.name }, this.config.auth.secret);
     // role_id 存入 session
     ctx.session.role_id = userInfo.role_id;
+    // user_id 存入 session
+    ctx.session.user_id = userInfo.id;
     return {
       id: userInfo.id,
       name: userInfo.name,

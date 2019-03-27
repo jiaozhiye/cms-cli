@@ -28,8 +28,8 @@ class DemoPanel extends Component {
 
   getRecord = async () => {
     const res = await getUserRecord({ id: this.props.uid });
-    if (res.err === 1) {
-      this.setState({ data: res.info });
+    if (res.code === 1) {
+      this.setState({ data: res.data });
     }
   };
 
@@ -76,14 +76,14 @@ class DemoPanel extends Component {
             : getFieldDecorator('username', {
                 initialValue: data.username,
                 rules: [{ required: true, message: '请输入帐号!' }]
-              })(<Input placeholder="帐号..." />)}
+              })(<Input placeholder="帐号" />)}
         </FormItem>
         <FormItem label="密码" {...formItemLayout}>
           {isShowItem
-            ? ''
+            ? '******'
             : getFieldDecorator('password', {
                 rules: [{ required: true, message: '请输入密码!' }]
-              })(<Input placeholder="密码..." />)}
+              })(<Input placeholder="密码" />)}
         </FormItem>
         <FormItem label="姓名" {...formItemLayout}>
           {isShowItem
@@ -91,7 +91,7 @@ class DemoPanel extends Component {
             : getFieldDecorator('name', {
                 initialValue: data.name,
                 rules: [{ required: true, message: '请输入姓名!' }]
-              })(<Input placeholder="姓名..." />)}
+              })(<Input placeholder="姓名" />)}
         </FormItem>
         <FormItem label="所属角色" {...formItemLayout}>
           {isShowItem
@@ -129,7 +129,7 @@ class DemoPanel extends Component {
             ? data.phone
             : getFieldDecorator('phone', {
                 initialValue: data.phone
-              })(<Input placeholder="手机号..." />)}
+              })(<Input placeholder="手机号" />)}
         </FormItem>
         <FormItem label="邮箱" {...formItemLayout}>
           {isShowItem
@@ -137,7 +137,7 @@ class DemoPanel extends Component {
             : getFieldDecorator('email', {
                 initialValue: data.email,
                 rules: [{ type: 'email', message: '邮箱格式不正确!' }]
-              })(<Input placeholder="邮箱..." />)}
+              })(<Input placeholder="邮箱" />)}
         </FormItem>
         {isShowItem ? null : (
           <div

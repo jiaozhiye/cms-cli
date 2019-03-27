@@ -1,7 +1,6 @@
 'use strict';
 
 const uuid = require('uuid/v4');
-const pinyin = require('pinyin');
 
 const Service = require('egg').Service;
 
@@ -76,21 +75,17 @@ class UserService extends Service {
   }
   async insert(form) {
     const ctx = this.ctx;
-    const pytArr = pinyin(form.name, { style: pinyin.STYLE_FIRST_LETTER });
-    const pyt = pytArr.map(item => item[0]).join('');
     const rows = await this.app.mysql.query(
       `
       INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
-      [uuid(), form.username, ctx.helper.md5(form.password), form.name, pyt, form.sex, form.phone, form.email, form.sort, form.role_id, null, null, '0']
+      [uuid(), form.username, ctx.helper.md5(form.password), form.name, ctx.helper.createPinyin(form.name), form.sex, form.phone, form.email, form.sort, form.role_id, null, null, '0']
     );
     // console.log(rows);
     return rows.affectedRows;
   }
   async update(form) {
     const ctx = this.ctx;
-    const pytArr = pinyin(form.name, { style: pinyin.STYLE_FIRST_LETTER });
-    const pyt = pytArr.map(item => item[0]).join('');
     const rows = await this.app.mysql.query(
       `
       UPDATE 
@@ -107,7 +102,7 @@ class UserService extends Service {
         t1.role_id = ? 
       WHERE t1.id = ?
     `,
-      [form.username, ctx.helper.md5(form.password), form.name, pyt, form.sex, form.phone, form.email, form.sort, form.role_id, form.id]
+      [form.username, ctx.helper.md5(form.password), form.name, ctx.helper.createPinyin(form.name), form.sex, form.phone, form.email, form.sort, form.role_id, form.id]
     );
     // console.log(rows);
     return rows.affectedRows;

@@ -46,18 +46,20 @@ class RoleService extends Service {
     return rows[0];
   }
   async insert(form) {
-    const role_id = this.ctx.session.role_id;
+    const ctx = this.ctx;
+    const user_id = ctx.session.user_id;
     const rows = await this.app.mysql.query(
       `
       INSERT INTO role VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `,
-      [uuid(), form.name, form.desc, form.sort, null, null, role_id, '0']
+      [uuid(), form.name, form.desc, form.sort, null, null, user_id, '0']
     );
     // console.log(rows);
     return rows.affectedRows;
   }
   async update(form) {
-    const role_id = this.ctx.session.role_id;
+    const ctx = this.ctx;
+    const user_id = ctx.session.user_id;
     const rows = await this.app.mysql.query(
       `
       UPDATE 
@@ -69,7 +71,7 @@ class RoleService extends Service {
         t1.creator = ? 
       WHERE t1.id = ?
     `,
-      [form.name, form.desc, form.sort, role_id, form.id]
+      [form.name, form.desc, form.sort, user_id, form.id]
     );
     // console.log(rows);
     return rows.affectedRows;

@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getRoleRecord } from '@/api';
+import { getMenuRecord } from '@/api';
 import css from './index.module.less';
 
-import { Form, Button, Input, InputNumber } from 'antd';
+import { Form, Button, Input, TreeSelect, InputNumber } from 'antd';
 const { TextArea } = Input;
 const FormItem = Form.Item;
+const { TreeNode } = TreeSelect;
 
 @connect(
   state => ({
-    btnState: state.app.btnLoading
+    btnState: state.app.btnLoading,
+    menus: state.app.dict.menus
   }),
   dispatch => ({})
 )
@@ -24,8 +26,21 @@ class DemoPanel extends Component {
     this.getRecord();
   }
 
+  createMenuTree = arr => {
+    return arr.map(item => {
+      if (Array.isArray(item.children) && item.children.length) {
+        return (
+          <TreeNode value={item.id} title={item.name} key={item.id}>
+            {this.createMenuTree(item.children)}
+          </TreeNode>
+        );
+      }
+      return <TreeNode value={item.id} title={item.name} key={item.id} />;
+    });
+  };
+
   getRecord = async () => {
-    const res = await getRoleRecord({ id: this.props.uid });
+    const res = await getMenuRecord({ id: this.props.uid });
     if (res.code === 1) {
       this.setState({ data: res.data });
     }
@@ -51,7 +66,7 @@ class DemoPanel extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { type } = this.props;
+    const { type, menus } = this.props;
     const isShowItem = type === 'show';
     const data = this.state.data || {};
 
@@ -68,20 +83,47 @@ class DemoPanel extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit} style={{ paddingBottom: 30 }}>
-        <FormItem label="角色名称" {...formItemLayout}>
+        <FormItem label="所属分类" {...formItemLayout}>
+          {isShowItem
+            ? data.pname || '根分类'
+            : getFieldDecorator('pid', {
+                initialValue: data.pid,
+                rules: [{ required: true, message: '请选择分类!' }]
+              })(
+                <TreeSelect showSearch style={{ width: 300 }} dropdownStyle={{ maxHeight: 300, overflow: 'auto' }} placeholder="请选择分类" treeDefaultExpandAll>
+                  {this.createMenuTree(menus)}
+                </TreeSelect>
+              )}
+        </FormItem>
+        <FormItem label="菜单名称" {...formItemLayout}>
           {isShowItem
             ? data.name
             : getFieldDecorator('name', {
                 initialValue: data.name,
-                rules: [{ required: true, message: '请输入名称!' }]
+                rules: [{ required: true, message: '请输入菜单名称!' }]
               })(<Input placeholder="名称" />)}
         </FormItem>
-        <FormItem label="角色描述" {...formItemLayout}>
+        <FormItem label="简介" {...formItemLayout}>
           {isShowItem
             ? data.desc
             : getFieldDecorator('desc', {
                 initialValue: data.desc
-              })(<TextArea rows={3} placeholder="描述..." />)}
+              })(<TextArea rows={3} placeholder="简介..." />)}
+        </FormItem>
+        <FormItem label="URL地址" {...formItemLayout}>
+          {isShowItem
+            ? data.url
+            : getFieldDecorator('url', {
+                initialValue: data.url,
+                rules: [{ required: true, message: '请输入URL!' }]
+              })(<Input placeholder="URL地址" />)}
+        </FormItem>
+        <FormItem label="icon图标" {...formItemLayout}>
+          {isShowItem
+            ? data.icon
+            : getFieldDecorator('icon', {
+                initialValue: data.icon
+              })(<Input placeholder="图标" />)}
         </FormItem>
         <FormItem label="排序" {...formItemLayout}>
           {isShowItem

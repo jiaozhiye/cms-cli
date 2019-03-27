@@ -2,6 +2,7 @@
 
 const jwt = require('jsonwebtoken');
 const md5 = require('md5');
+const pinyin = require('pinyin');
 
 module.exports = {
   md5(str) {
@@ -48,5 +49,8 @@ module.exports = {
       return this.app.mysql.escape(params);
     }
     return '';
+  },
+  createPinyin(str) {
+    return pinyin(str, { style: pinyin.STYLE_FIRST_LETTER }).map(item => item[0]).join('');
   }
 };

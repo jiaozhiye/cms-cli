@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import actionCreators from '@/store/actions';
 
-import utils from '@/utils';
-import { getMenuList } from '@/api';
+import { getMenuList, addMenuRecord, modMenuRecord, delMenuRecord } from '@/api';
 
 import ColumnFilter from '@/components/ColumnFilter';
 import FilterTable from '@/components/Table/filterTable';
-import DemoPanel from '@/components/DemoPanel';
+import MenuPanel from '@/components/MenuPanel';
 
 import css from './index.module.less';
 
@@ -27,9 +26,24 @@ class Demo extends Component {
       formPanel: {}, // 新增/编辑 表单面板
       params: {}, // Toper 搜索参数
       fetchApiFunc: getMenuList, // table 数据接口
-      columns: this.createColumns()
+      columns: this.createColumns(),
+      expandedRowKeys: [] // 展开的行
     };
   }
+
+  // 设置展开行的 key -> rowKey
+  setExpandedRowKeys = rows => {
+    let tmp = [];
+    (function fn(arr) {
+      arr.forEach(item => {
+        if (Array.isArray(item.children) && item.children.length) {
+          fn(item.children);
+        }
+        tmp.push(item.id);
+      });
+    })(rows);
+    this.setState({ expandedRowKeys: tmp });
+  };
 
   // table 数据列
   createColumns = () => {
@@ -81,22 +95,27 @@ class Demo extends Component {
   // 保存/更新
   saveHandler = async formDate => {
     const { type } = this.state.formPanel;
-    console.log(type, formDate);
+    let res;
     if (type === 'add') {
-      // 新增
+      res = await addMenuRecord(formDate);
     }
     if (type === 'edit') {
-      // 更新
+      res = await modMenuRecord(formDate);
     }
-    message.success('保存成功！');
-    this.closeDrawer();
-    this.reloadHandler();
+    if (res.code === 1) {
+      message.success(res.message);
+      this.closeDrawer();
+      this.reloadHandler();
+    }
   };
 
   // 删除
   deleteHandler = async id => {
-    message.success('删除成功！');
-    this.reloadHandler();
+    const res = await delMenuRecord({ id });
+    if (res.code === 1) {
+      message.success(res.message);
+      this.reloadHandler();
+    }
   };
 
   // 重新加载数据
@@ -115,16 +134,16 @@ class Demo extends Component {
     const formPanel = { type };
     if (type === 'add') {
       // 新增
-      formPanel.title = '新增员工';
+      formPanel.title = '新增菜单';
     }
     if (type === 'edit') {
       // 编辑
-      formPanel.title = '编辑员工';
+      formPanel.title = '编辑菜单';
       formPanel.uid = id;
     }
     if (type === 'show') {
       // 查看
-      formPanel.title = '查看员工';
+      formPanel.title = '查看菜单';
       formPanel.uid = id;
     }
     this.setState({ visible: true, formPanel });
@@ -136,7 +155,7 @@ class Demo extends Component {
   };
 
   render() {
-    const { params, fetchApiFunc, columns, visible, formPanel } = this.state;
+    const { params, fetchApiFunc, columns, visible, formPanel, expandedRowKeys } = this.state;
     return (
       <>
         <Card size="small" className={css['card-bor']} bordered={false}>
@@ -147,9 +166,21 @@ class Demo extends Component {
             </Button>
           </div>
         </Card>
-        <FilterTable columns={columns} params={params} fetch={fetchApiFunc} pagination={false} onTableChange={val => {}} />
+        <FilterTable
+          columns={columns}
+          params={params}
+          fetch={fetchApiFunc}
+          pagination={false}
+          expandedRowKeys={expandedRowKeys}
+          onExpandedRowsChange={expandedRows => {
+            this.setState({ expandedRowKeys: expandedRows });
+          }}
+          onTableChange={val => {
+            this.setExpandedRowKeys(val);
+          }}
+        />
         <Drawer visible={visible} destroyOnClose title={formPanel.title} width={600} onClose={this.closeDrawer}>
-          <DemoPanel {...formPanel} onSave={formDate => this.saveHandler(formDate)} />
+          <MenuPanel {...formPanel} onSave={formDate => this.saveHandler(formDate)} />
         </Drawer>
       </>
     );

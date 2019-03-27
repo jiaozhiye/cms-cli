@@ -8,7 +8,10 @@ class DictService extends Service {
       SELECT t1.name, t1.id AS value FROM role t1
     `);
 
-    return { roles };
+    const menuTree = await this.service.menu.getTree();
+    const menus = [{ id: '0', name: '根分类', children: menuTree }];
+
+    return { roles, menus };
   }
 }
 

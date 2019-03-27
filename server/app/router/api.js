@@ -18,4 +18,8 @@ module.exports = app => {
   router.post('/api/user/update', controller.user.modOne);
   router.get('/api/user/delete', controller.user.delOne);
   router.get('/api/menu/getTree', controller.menu.getMenuTree);
+  router.get('/api/menu/getOne', controller.menu.getOne);
+  router.post('/api/menu/insert', controller.menu.addOne);
+  router.post('/api/menu/update', controller.menu.modOne);
+  router.get('/api/menu/delete', controller.menu.delOne);
 };

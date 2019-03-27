@@ -43,6 +43,18 @@ export const delUserRecord = params => axios.get('/api/user/delete', { params })
 // 获取菜单列表
 export const getMenuList = params => axios.get('/api/menu/getTree', { params });
 
+// 获取菜单记录
+export const getMenuRecord = params => axios.get('/api/menu/getOne', { params });
+
+// 新增菜单记录
+export const addMenuRecord = params => axios.post('/api/menu/insert', params);
+
+// 修改菜单记录
+export const modMenuRecord = params => axios.post('/api/menu/update', params);
+
+// 删除菜单记录
+export const delMenuRecord = params => axios.get('/api/menu/delete', { params });
+
 // 上传富文本编辑器图片接口
 export const editerUploadUrl = `${config.serverUrl}/api/uploadEditerFile`;
 
