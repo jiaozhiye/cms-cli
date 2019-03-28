@@ -26,6 +26,11 @@ const Menu = Loadable({
   loading: Loading
 });
 
+const Site = Loadable({
+  loader: () => import('@/pages/site'),
+  loading: Loading
+});
+
 const Demo = Loadable({
   loader: () => import('@/pages/demo'),
   loading: Loading
@@ -47,10 +52,10 @@ const Routes = props => {
         <Route exact path="/system/menu" component={Menu} />
         <Route exact path="/system/permission" component={Home} />
         <Redirect exact from="/system" to="/system/role" />
+        <Route exact path="/site/web" component={Site} />
         <Route exact path="/site/classify" component={Home} />
         <Route exact path="/site/article" component={Demo} />
-        <Route exact path="/site/web" component={Home} />
-        <Redirect exact from="/site" to="/site/classify" />
+        <Redirect exact from="/site" to="/site/web" />
         <Redirect exact from="/" to="/home" />
         <Route component={NoMatch} />
       </Switch>

@@ -1,5 +1,5 @@
 import { DO_LOGIN, CREATE_MENU, LOADING_STATE, DICT_DATA } from '../types';
-import { setToken } from '@/assets/js/auth';
+import { setToken, setUser } from '@/assets/js/auth';
 
 /**
  * 初始化state
@@ -14,6 +14,7 @@ const initState = {
 
 const setUserInfo = (state, payload) => {
   setToken(payload.token);
+  setUser(payload.name);
   return Object.assign({}, state, {
     userInfo: payload,
     roles: payload.roles || []

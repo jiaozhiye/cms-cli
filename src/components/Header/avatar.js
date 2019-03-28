@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
 
+import { getUser } from '@/assets/js/auth';
 import { Menu, Dropdown, Icon, Avatar } from 'antd';
 
 import css from './avatar.module.less';
 
 export default class HeadAvatar extends Component {
+  state = {
+    username: ''
+  };
+
+  componentDidMount() {
+    this.setState({ username: getUser() });
+  }
+
   doLogoutHandler = async e => {
     console.log(e);
   };
 
   render() {
+    const { username } = this.state;
     const menu = (
       <Menu>
         <Menu.Item key="1">
@@ -24,11 +34,11 @@ export default class HeadAvatar extends Component {
         </Menu.Item>
       </Menu>
     );
-
     return (
       <Dropdown overlay={menu}>
         <span className={css['dropdown-trigger']}>
-          <Avatar icon="user" size="small" /> <span>管理员</span>
+          <Avatar icon="user" size="small" />
+          <span className={css.user}>{username}</span>
         </span>
       </Dropdown>
     );

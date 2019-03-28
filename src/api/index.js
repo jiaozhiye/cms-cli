@@ -55,6 +55,12 @@ export const modMenuRecord = params => axios.post('/api/menu/update', params);
 // 删除菜单记录
 export const delMenuRecord = params => axios.get('/api/menu/delete', { params });
 
+// 获取站点信息
+export const getSiteInfo = params => axios.get('/api/site/getOne', { params });
+
+// 保存站点信息
+export const saveSiteInfo = params => axios.post('/api/site/update', params);
+
 // 上传富文本编辑器图片接口
 export const editerUploadUrl = `${config.serverUrl}/api/uploadEditerFile`;
 

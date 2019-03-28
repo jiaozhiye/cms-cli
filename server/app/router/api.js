@@ -22,4 +22,6 @@ module.exports = app => {
   router.post('/api/menu/insert', controller.menu.addOne);
   router.post('/api/menu/update', controller.menu.modOne);
   router.get('/api/menu/delete', controller.menu.delOne);
+  router.get('/api/site/getOne', controller.site.getOne);
+  router.post('/api/site/update', controller.site.saveOne);
 };
