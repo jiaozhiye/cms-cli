@@ -26,11 +26,22 @@ class SiteService extends Service {
       ['0']
     );
 
-    const res = !rows.length ? null : rows[0];
-
-    return res;
+    if (rows.length) {
+      rows.forEach(item => {
+        for (let attr in item) {
+          if (attr === 'telephone') {
+            item[attr] = item[attr].split(',');
+          }
+        }
+      });
+      return rows[0];
+    }
+    return null;
   }
   async save(form) {
+    const ctx = this.ctx;
+    const { title = '', keywords = '', description = '', copy = '', address = '', email = '', records = '' } = form;
+    const telephone = Array.isArray(form.telephone) ? form.telephone.join(',') : '';
     let rows;
     if (form.id) {
       // 更新
@@ -49,7 +60,7 @@ class SiteService extends Service {
           records = ? 
         WHERE id = ? 
       `,
-        [form.title, form.keywords, form.description, form.copy, form.address, form.telephone, form.email, form.records, form.id]
+        [title, keywords, description, copy, address, telephone, email, records, form.id]
       );
     } else {
       // 新增
@@ -58,7 +69,7 @@ class SiteService extends Service {
         `
         INSERT INTO site_config VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
-        [uuid(), '', form.title, form.keywords, form.description, form.copy, form.address, form.telephone, form.email, form.records, null, null, user_id, '0']
+        [uuid(), '', title, keywords, description, copy, address, telephone, email, records, null, null, user_id, '0']
       );
     }
     return rows.affectedRows;

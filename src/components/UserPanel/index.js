@@ -79,11 +79,7 @@ class DemoPanel extends Component {
               })(<Input placeholder="登陆名" />)}
         </FormItem>
         <FormItem label="登陆密码" {...formItemLayout}>
-          {isShowItem
-            ? '******'
-            : getFieldDecorator('password', {
-                rules: [{ required: true, message: '请输入密码!' }]
-              })(<Input placeholder="密码" />)}
+          {isShowItem ? '******' : getFieldDecorator('password')(<Input placeholder="默认 123456" />)}
         </FormItem>
         <FormItem label="昵称" {...formItemLayout}>
           {isShowItem

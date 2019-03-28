@@ -63,6 +63,12 @@ class RoleController extends Controller {
     const ctx = this.ctx;
     const id = ctx.query.id;
     const res = await this.service.role.delete(id);
+    if (typeof res === 'string' && res !== '') {
+      return (ctx.body = {
+        code: 0,
+        message: res
+      });
+    }
     if (!res) {
       ctx.body = {
         code: 0,

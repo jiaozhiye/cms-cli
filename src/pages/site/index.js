@@ -11,7 +11,6 @@ const { Option } = Select;
 
 class Site extends Component {
   state = {
-    index: 0,
     keys: [0],
     form: {}
   };
@@ -23,6 +22,10 @@ class Site extends Component {
   getRecords = async () => {
     const res = await getSiteInfo();
     if (res.code === 1) {
+      if (Array.isArray(res.data.telephone)) {
+        const keys = res.data.telephone.map((x, i) => i);
+        this.setState({ keys });
+      }
       this.setState({ form: res.data });
     }
   };
@@ -42,8 +45,7 @@ class Site extends Component {
 
   add = () => {
     const { keys } = this.state;
-    let index = !keys.length ? 0 : keys[keys.length - 1] + 1;
-    const nextKeys = keys.concat(index++);
+    const nextKeys = keys.concat(keys[keys.length - 1] + 1);
     this.setState({ keys: nextKeys });
   };
 
@@ -52,10 +54,11 @@ class Site extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const { form } = this.state;
-        if (form.id) {
-          values['id'] = form.id;
+        form.id && (values['id'] = form.id);
+        if (Array.isArray(values.telephone)) {
+          values.telephone = values.telephone.filter(x => x);
         }
-        console.log(values);
+        // console.log(values);
         this.saveRecords(values);
       }
     });
@@ -64,6 +67,9 @@ class Site extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { form, keys } = this.state;
+    if (!form.telephone) {
+      form.telephone = keys.map(x => undefined);
+    }
 
     const formItemLayout = {
       labelCol: {
@@ -97,21 +103,31 @@ class Site extends Component {
       </Select>
     );
 
+    // console.log(keys);
+
     // == 动态表单 ==
     const formItems = keys.map((k, index) => (
       <FormItem {...(index === 0 ? formItemLayout : tailFormItemLayout)} label={index === 0 ? '联系电话' : ''} key={k}>
-        {getFieldDecorator(`telephone[${k}]`)(<Input addonBefore={prefixSelector} placeholder="电话" style={{ width: '80%', marginRight: 10 }} />)}
+        {getFieldDecorator(`telephone[${k}]`, { initialValue: form.telephone[k] })(<Input addonBefore={prefixSelector} placeholder="电话" style={{ width: '80%', marginRight: 10 }} />)}
         {keys.length > 1 ? <Icon className={css['dynamic-delete-button']} type="minus-circle-o" disabled={keys.length === 1} onClick={() => this.remove(k)} /> : null}
       </FormItem>
     ));
     // == 动态表单 END ==
 
     return (
-      <Card title="站点信息" bordered={false} size="small">
+      <Card
+        title={
+          <span>
+            <Icon type="desktop" />
+            <span style={{ marginLeft: 8 }}>站点信息</span>
+          </span>
+        }
+        bordered={false}
+      >
         <Form {...formItemLayout} onSubmit={this.handleSubmit} style={{ width: 600, marginTop: 10 }}>
           <FormItem label="站点名称">{getFieldDecorator('title', { initialValue: form.title })(<Input placeholder="站点名称" />)}</FormItem>
           <FormItem label="关键字">{getFieldDecorator('keywords', { initialValue: form.keywords })(<Input placeholder="关键字" />)}</FormItem>
-          <FormItem label="关键字描述">{getFieldDecorator('description', { initialValue: form.description })(<TextArea rows={2} placeholder="描述" />)}</FormItem>
+          <FormItem label="关键字描述">{getFieldDecorator('description', { initialValue: form.description })(<TextArea rows={3} placeholder="描述" />)}</FormItem>
           <FormItem label="公司名称">{getFieldDecorator('copy', { initialValue: form.copy })(<Input placeholder="公司" />)}</FormItem>
           <FormItem label="公司地址">{getFieldDecorator('address', { initialValue: form.address })(<TextArea rows={3} placeholder="地址" />)}</FormItem>
           {formItems}

@@ -84,11 +84,12 @@ class MenuService extends Service {
   async insert(form) {
     const ctx = this.ctx;
     const user_id = ctx.session.user_id;
+    const { pid, name, desc = '', url, icon = '', sort } = form;
     const rows = await this.app.mysql.query(
       `
       INSERT INTO menu VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
-      [uuid(), form.pid, form.name, form.desc, form.url, form.icon, form.sort, null, null, user_id, '0']
+      [uuid(), pid, name, desc, url, icon, sort, null, null, user_id, '0']
     );
     // console.log(rows);
     return rows.affectedRows;
@@ -96,6 +97,7 @@ class MenuService extends Service {
   async update(form) {
     const ctx = this.ctx;
     const user_id = ctx.session.user_id;
+    const { pid, name, desc = '', url, icon = '', sort, id } = form;
     const rows = await this.app.mysql.query(
       `
       UPDATE 
@@ -110,7 +112,7 @@ class MenuService extends Service {
         t1.creator = ? 
       WHERE t1.id = ?
     `,
-      [form.pid, form.name, form.desc, form.url, form.icon, form.sort, user_id, form.id]
+      [pid, name, desc, url, icon, sort, user_id, id]
     );
     // console.log(rows);
     return rows.affectedRows;

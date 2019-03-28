@@ -48,11 +48,12 @@ class RoleService extends Service {
   async insert(form) {
     const ctx = this.ctx;
     const user_id = ctx.session.user_id;
+    const { name, desc = '', sort } = form;
     const rows = await this.app.mysql.query(
       `
       INSERT INTO role VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `,
-      [uuid(), form.name, form.desc, form.sort, null, null, user_id, '0']
+      [uuid(), name, desc, sort, null, null, user_id, '0']
     );
     // console.log(rows);
     return rows.affectedRows;
@@ -60,6 +61,7 @@ class RoleService extends Service {
   async update(form) {
     const ctx = this.ctx;
     const user_id = ctx.session.user_id;
+    const { name, desc = '', sort, id } = form;
     const rows = await this.app.mysql.query(
       `
       UPDATE 
@@ -71,12 +73,30 @@ class RoleService extends Service {
         t1.creator = ? 
       WHERE t1.id = ?
     `,
-      [form.name, form.desc, form.sort, user_id, form.id]
+      [name, desc, sort, user_id, id]
     );
     // console.log(rows);
     return rows.affectedRows;
   }
   async delete(id) {
+    // 先判断该角色下是否还有用户
+    const [{ total }] = await this.app.mysql.query(
+      `
+      SELECT 
+        COUNT(*) AS total 
+      FROM
+        user t1 
+      WHERE t1.role_id = ? 
+        AND t1.deleted = ? 
+    `,
+      [id, '0']
+    );
+
+    // 有用户不允许删除
+    if (total > 0) {
+      return '删除该角色前，请先删除其中的用户！';
+    }
+
     const rows = await this.app.mysql.query(
       `
       UPDATE role t1 SET t1.deleted = ? WHERE t1.id = ?

@@ -75,24 +75,37 @@ class UserService extends Service {
   }
   async insert(form) {
     const ctx = this.ctx;
+    // 默认密码
+    const defaultPwd = '123456';
+    const { username, password = defaultPwd, name, sex, phone, email = '', sort, role_id } = form;
     const rows = await this.app.mysql.query(
       `
       INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
-      [uuid(), form.username, ctx.helper.md5(form.password), form.name, ctx.helper.createPinyin(form.name), form.sex, form.phone, form.email, form.sort, form.role_id, null, null, '0']
+      [uuid(), username, ctx.helper.md5(password), name, ctx.helper.createPinyin(name), sex, phone, email, sort, role_id, null, null, '0']
     );
     // console.log(rows);
     return rows.affectedRows;
   }
   async update(form) {
     const ctx = this.ctx;
+    const { username, password = '', name, sex, phone, email = '', sort, role_id, id } = form;
+
+    let pwd_sql = ` t1.password = ?,`;
+    let dataArr = [ctx.helper.md5(password), username, name, ctx.helper.createPinyin(name), sex, phone, email, sort, role_id, id];
+    // 不修改密码
+    if (!password) {
+      pwd_sql = ``;
+      dataArr.shift();
+    }
+
     const rows = await this.app.mysql.query(
       `
       UPDATE 
         user t1
-      SET
+      SET 
+        ${pwd_sql}
         t1.username = ?,
-        t1.password = ?,
         t1.name = ?,
         t1.pinyin = ?,
         t1.sex = ?,
@@ -102,7 +115,7 @@ class UserService extends Service {
         t1.role_id = ? 
       WHERE t1.id = ?
     `,
-      [form.username, ctx.helper.md5(form.password), form.name, ctx.helper.createPinyin(form.name), form.sex, form.phone, form.email, form.sort, form.role_id, form.id]
+      dataArr
     );
     // console.log(rows);
     return rows.affectedRows;
