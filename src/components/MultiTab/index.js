@@ -66,9 +66,9 @@ class MultiTab extends Component {
     if (!menuList.length) return;
     const breadList = this.createBreadcrumb(menuList, key);
     this.setState({ activeKey: key, breadList });
+    // 不存在
     if (panes.findIndex(item => item.key === key) === -1) {
-      // 不存在
-      const title = breadList[breadList.length - 1].title;
+      const title = breadList.length ? breadList[breadList.length - 1].title : '404';
       panes.push({ title, key });
       this.setState({ panes });
     }

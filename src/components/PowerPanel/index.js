@@ -7,7 +7,7 @@ import { getMenuList, getRolePower } from '@/api';
 
 import css from './index.module.less';
 
-import { Form, Tree, Button } from 'antd';
+import { Form, Tree, Button, Alert } from 'antd';
 const { TreeNode } = Tree;
 
 @connect(
@@ -77,6 +77,7 @@ class PowerPanel extends Component {
 
     return (
       <>
+        <Alert message="如果所有子菜单都无权限，那么其父级菜单请不要选中！" type="info" showIcon />
         {treeNodes}
         <div
           style={{

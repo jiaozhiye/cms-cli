@@ -30,7 +30,7 @@ export default class AppRouter extends Component {
       <Router>
         <App>
           <Switch>
-            <Route path="/login" component={Login} />
+            <Route exact path="/login" component={Login} />
             <PrivateRoute path="/" component={RoutesMap} />
           </Switch>
         </App>

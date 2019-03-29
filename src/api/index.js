@@ -1,4 +1,4 @@
-import axios from './fetch';
+import { instance as axios } from './fetch';
 import config from '@/assets/js/config';
 
 // 登录接口
@@ -69,6 +69,21 @@ export const getSiteInfo = params => axios.get('/api/site/getOne', { params });
 
 // 保存站点信息
 export const saveSiteInfo = params => axios.post('/api/site/update', params);
+
+// 获取分类列表
+export const getClassifyList = params => axios.get('/api/classify/getList', { params });
+
+// 获取分类记录
+export const getClassifyRecord = params => axios.get('/api/classify/getOne', { params });
+
+// 新增分类记录
+export const addClassifyRecord = params => axios.post('/api/classify/insert', params);
+
+// 修改分类记录
+export const modClassifyRecord = params => axios.post('/api/classify/update', params);
+
+// 删除分类记录
+export const delClassifyRecord = params => axios.get('/api/classify/delete', { params });
 
 // 上传富文本编辑器图片接口
 export const editerUploadUrl = `${config.serverUrl}/api/uploadEditerFile`;

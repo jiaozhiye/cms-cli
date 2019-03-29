@@ -33,6 +33,8 @@ class UserService extends Service {
           ON t1.role_id = t2.id 
       WHERE
         t1.deleted = ? ${role_id} ${name} ${sex}
+      ORDER BY 
+        t1.sort ASC 
       ${pagination}
     `,
       ['0']
@@ -68,31 +70,28 @@ class UserService extends Service {
     `,
       [id, '0']
     );
-    if (!rows.length) {
-      return false;
-    }
     return rows[0];
   }
   async insert(form) {
     const ctx = this.ctx;
     // 默认密码
     const defaultPwd = '123456';
-    const { username, password = defaultPwd, name, sex, phone, email = '', sort, role_id } = form;
+    const { username, password = defaultPwd, name, sex, phone, email = '', sort, img_path = '', role_id } = form;
     const rows = await this.app.mysql.query(
       `
-      INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO user VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
-      [uuid(), username, ctx.helper.md5(password), name, ctx.helper.createPinyin(name), sex, phone, email, sort, role_id, null, null, '0']
+      [uuid(), username, ctx.helper.md5(password), name, ctx.helper.createPinyin(name), sex, phone, email, sort, img_path, role_id, null, null, '0']
     );
     // console.log(rows);
     return rows.affectedRows;
   }
   async update(form) {
     const ctx = this.ctx;
-    const { username, password = '', name, sex, phone, email = '', sort, role_id, id } = form;
+    const { username, password = '', name, sex, phone, email = '', sort, img_path = '', role_id, id } = form;
 
     let pwd_sql = ` t1.password = ?,`;
-    let dataArr = [ctx.helper.md5(password), username, name, ctx.helper.createPinyin(name), sex, phone, email, sort, role_id, id];
+    let dataArr = [ctx.helper.md5(password), username, name, ctx.helper.createPinyin(name), sex, phone, email, sort, img_path, role_id, id];
     // 不修改密码
     if (!password) {
       pwd_sql = ``;
@@ -112,6 +111,7 @@ class UserService extends Service {
         t1.phone = ?,
         t1.email = ?,
         t1.sort = ?,
+        t1.img_path = ?,
         t1.role_id = ? 
       WHERE t1.id = ?
     `,

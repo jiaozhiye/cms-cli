@@ -28,6 +28,10 @@ class PageTable extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.setState = (state, cb) => {};
+  }
+
   getRecords = async () => {
     this.setState({ loading: true });
     const { pagination, filters } = this.state;

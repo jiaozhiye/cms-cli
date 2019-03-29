@@ -7,6 +7,9 @@ import { getToken, removeToken } from '@/assets/js/auth';
 
 import { message } from 'antd';
 
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
+
 console.info(config.env);
 
 const instance = axios.create({
@@ -24,6 +27,7 @@ instance.interceptors.request.use(
   config => {
     // 请求头信息，token 验证
     config.headers = { 'x-access-token': getToken() || '' };
+    config.cancelToken = source.token;
     store.dispatch(actionCreators.createBtnLoadingState(true));
     return config;
   },
@@ -55,4 +59,4 @@ instance.interceptors.response.use(
   }
 );
 
-export default instance;
+export { instance, source };

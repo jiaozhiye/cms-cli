@@ -27,4 +27,9 @@ module.exports = app => {
   router.get('/api/power/getList', controller.power.getList);
   router.post('/api/power/update', controller.power.setPower);
   router.get('/api/power/getOne', controller.power.getOne);
+  router.get('/api/classify/getList', controller.classify.getList);
+  router.get('/api/classify/getOne', controller.classify.getOne);
+  router.post('/api/classify/insert', controller.classify.addOne);
+  router.post('/api/classify/update', controller.classify.modOne);
+  router.get('/api/classify/delete', controller.classify.delOne);
 };

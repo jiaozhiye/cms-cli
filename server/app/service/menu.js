@@ -76,9 +76,6 @@ class MenuService extends Service {
     `,
       [id, '0']
     );
-    if (!rows.length) {
-      return false;
-    }
     return rows[0];
   }
   async insert(form) {

@@ -1,40 +1,50 @@
 'use strict';
 
 const uuid = require('uuid/v4');
+
 const Service = require('egg').Service;
 
-class RoleService extends Service {
-  async getRole(options) {
+class ClassifyService extends Service {
+  async getList() {
     const ctx = this.ctx;
-    // 角色名
-    const name = options.name ? ` AND t1.name LIKE ${ctx.helper.escape(`%${options.name}%`)}` : '';
-
     const rows = await this.app.mysql.query(
       `
       SELECT 
         t1.id,
+        t1.pid,
         t1.name,
         t1.desc,
+        t1.url,
+        t1.img_size,
+        t1.sort,
         FROM_UNIXTIME(UNIX_TIMESTAMP(t1.modify_time), '%Y-%m-%d %H:%i:%s') AS modify_time 
       FROM
-        role t1 
-      WHERE deleted = ? ${name}
+        classify t1 
+      WHERE t1.deleted = ? 
       ORDER BY t1.sort ASC 
     `,
       ['0']
     );
-    return rows;
+    return ctx.helper.createMenuTree(rows);
   }
   async getone(id) {
     const rows = await this.app.mysql.query(
       `
       SELECT 
         t1.id,
+        t1.pid,
         t1.name,
+        (SELECT 
+            t2.name 
+        FROM
+          classify t2 
+        WHERE t2.id = t1.pid) AS pname,
         t1.desc,
+        t1.url,
+        t1.img_size,
         t1.sort 
       FROM
-        role t1 
+        classify t1 
       WHERE t1.id = ? 
         AND t1.deleted = ? 
     `,
@@ -45,12 +55,12 @@ class RoleService extends Service {
   async insert(form) {
     const ctx = this.ctx;
     const user_id = ctx.session.user_id;
-    const { name, desc = '', sort } = form;
+    const { pid, name, desc = '', url, img_size = '', sort } = form;
     const rows = await this.app.mysql.query(
       `
-      INSERT INTO role VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO classify VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
-      [uuid(), name, desc, sort, null, null, user_id, '0']
+      [uuid(), pid, name, desc, url, img_size, sort, null, null, user_id, '0']
     );
     // console.log(rows);
     return rows.affectedRows;
@@ -58,45 +68,48 @@ class RoleService extends Service {
   async update(form) {
     const ctx = this.ctx;
     const user_id = ctx.session.user_id;
-    const { name, desc = '', sort, id } = form;
+    const { pid, name, desc = '', url, img_size = '', sort, id } = form;
     const rows = await this.app.mysql.query(
       `
       UPDATE 
-        role t1
+        classify t1
       SET
+        t1.pid = ?,
         t1.name = ?,
         t1.desc = ?,
+        t1.url = ?,
+        t1.img_size = ?,
         t1.sort = ?,
         t1.creator = ? 
       WHERE t1.id = ?
     `,
-      [name, desc, sort, user_id, id]
+      [pid, name, desc, url, img_size, sort, user_id, id]
     );
     // console.log(rows);
     return rows.affectedRows;
   }
   async delete(id) {
-    // 先判断该角色下是否还有用户
+    // 先判断该分类下是否还有子分类
     const [{ total }] = await this.app.mysql.query(
       `
       SELECT 
         COUNT(*) AS total 
       FROM
-        user t1 
-      WHERE t1.role_id = ? 
+        classify t1 
+      WHERE t1.pid = ? 
         AND t1.deleted = ? 
     `,
       [id, '0']
     );
 
-    // 有用户不允许删除
+    // 有子分类不允许删除
     if (total > 0) {
-      return '删除该角色前，请先删除其中的用户！';
+      return '删除该分类前，请先删除其子分类！';
     }
 
     const rows = await this.app.mysql.query(
       `
-      UPDATE role t1 SET t1.deleted = ? WHERE t1.id = ?
+      UPDATE classify t1 SET t1.deleted = ? WHERE t1.id = ?
     `,
       ['1', id]
     );
@@ -104,4 +117,4 @@ class RoleService extends Service {
   }
 }
 
-module.exports = RoleService;
+module.exports = ClassifyService;
