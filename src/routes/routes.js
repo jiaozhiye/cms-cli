@@ -26,6 +26,11 @@ const Menu = Loadable({
   loading: Loading
 });
 
+const Power = Loadable({
+  loader: () => import('@/pages/power'),
+  loading: Loading
+});
+
 const Site = Loadable({
   loader: () => import('@/pages/site'),
   loading: Loading
@@ -50,12 +55,10 @@ const Routes = props => {
         <Route exact path="/system/role" component={Role} />
         <Route exact path="/system/user" component={User} />
         <Route exact path="/system/menu" component={Menu} />
-        <Route exact path="/system/permission" component={Home} />
-        <Redirect exact from="/system" to="/system/role" />
+        <Route exact path="/system/permission" component={Power} />
         <Route exact path="/site/web" component={Site} />
         <Route exact path="/site/classify" component={Home} />
         <Route exact path="/site/article" component={Demo} />
-        <Redirect exact from="/site" to="/site/web" />
         <Redirect exact from="/" to="/home" />
         <Route component={NoMatch} />
       </Switch>

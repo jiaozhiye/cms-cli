@@ -55,6 +55,15 @@ export const modMenuRecord = params => axios.post('/api/menu/update', params);
 // 删除菜单记录
 export const delMenuRecord = params => axios.get('/api/menu/delete', { params });
 
+// 获取角色及用户列表
+export const getPowerList = params => axios.get('/api/power/getList', { params });
+
+// 获取角色权限
+export const getRolePower = params => axios.get('/api/power/getOne', { params });
+
+// 设置角色权限
+export const setRolePower = params => axios.post('/api/power/update', params);
+
 // 获取站点信息
 export const getSiteInfo = params => axios.get('/api/site/getOne', { params });
 

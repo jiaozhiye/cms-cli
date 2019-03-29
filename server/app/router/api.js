@@ -24,4 +24,7 @@ module.exports = app => {
   router.get('/api/menu/delete', controller.menu.delOne);
   router.get('/api/site/getOne', controller.site.getOne);
   router.post('/api/site/update', controller.site.saveOne);
+  router.get('/api/power/getList', controller.power.getList);
+  router.post('/api/power/update', controller.power.setPower);
+  router.get('/api/power/getOne', controller.power.getOne);
 };
