@@ -4,15 +4,36 @@ import { dateToMoment, dateFormat } from '@/assets/js/util';
 
 import css from './index.module.less';
 
-import { Form, Icon, Input, Button, Select, DatePicker } from 'antd';
+import { Form, Icon, Input, Button, Select, DatePicker, TreeSelect } from 'antd';
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
+const { TreeNode } = TreeSelect;
 
 class TopFilter extends Component {
   componentDidMount() {
     this.initial();
   }
+
+  initial = () => {
+    const { data, onSearch } = this.props;
+    const params = {};
+    data.forEach(item => (params[item.fieldName] = item.initialValue));
+    onSearch(params);
+  };
+
+  createTreeSelect = list => {
+    return list.map(item => {
+      if (Array.isArray(item.children) && item.children.length) {
+        return (
+          <TreeNode value={item.id} title={item.name} key={item.id}>
+            {this.createTreeSelect(item.children)}
+          </TreeNode>
+        );
+      }
+      return <TreeNode value={item.id} title={item.name} key={item.id} />;
+    });
+  };
 
   INPUT = option => {
     const { getFieldDecorator } = this.props.form;
@@ -52,6 +73,22 @@ class TopFilter extends Component {
     );
   };
 
+  TREE_SELECT = option => {
+    const { getFieldDecorator } = this.props.form;
+    const { label, fieldName, initialValue, style = {}, placeholder, list } = option;
+    return (
+      <FormItem label={label} key={fieldName}>
+        {getFieldDecorator(fieldName, {
+          initialValue: initialValue
+        })(
+          <TreeSelect showSearch allowClear style={{ ...style }} placeholder={placeholder} treeDefaultExpandAll>
+            {this.createTreeSelect(list)}
+          </TreeSelect>
+        )}
+      </FormItem>
+    );
+  };
+
   DATE = option => {
     const { getFieldDecorator } = this.props.form;
     const { label, fieldName, initialValue, style = {}, placeholder } = option;
@@ -84,13 +121,6 @@ class TopFilter extends Component {
     });
   };
 
-  initial = () => {
-    const { data, onSearch } = this.props;
-    const params = {};
-    data.forEach(item => (params[item.fieldName] = item.initialValue));
-    onSearch(params);
-  };
-
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -111,16 +141,16 @@ class TopFilter extends Component {
     });
   };
 
+  handleReset = e => {
+    e.preventDefault();
+    this.props.form.resetFields();
+  };
+
   isEmpty = val => {
     if (Array.isArray(val)) {
       return Boolean(val.length);
     }
     return Boolean(val);
-  };
-
-  handleReset = e => {
-    e.preventDefault();
-    this.props.form.resetFields();
   };
 
   render() {

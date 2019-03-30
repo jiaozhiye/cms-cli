@@ -18,7 +18,7 @@ import { Card, Drawer, Button, Icon, Divider, Popconfirm, message } from 'antd';
   state => ({}),
   dispatch => ({})
 )
-class Demo extends Component {
+class Classify extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -187,4 +187,4 @@ class Demo extends Component {
   }
 }
 
-export default Demo;
+export default Classify;

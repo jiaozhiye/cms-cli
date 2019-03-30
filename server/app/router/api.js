@@ -32,4 +32,5 @@ module.exports = app => {
   router.post('/api/classify/insert', controller.classify.addOne);
   router.post('/api/classify/update', controller.classify.modOne);
   router.get('/api/classify/delete', controller.classify.delOne);
+  router.get('/api/article/getList', controller.article.getList);
 };

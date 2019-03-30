@@ -41,6 +41,11 @@ const Classify = Loadable({
   loading: Loading
 });
 
+const Article = Loadable({
+  loader: () => import('@/pages/article'),
+  loading: Loading
+});
+
 const Demo = Loadable({
   loader: () => import('@/pages/demo'),
   loading: Loading
@@ -63,7 +68,7 @@ const Routes = props => {
         <Route exact path="/system/permission" component={Power} />
         <Route exact path="/site/web" component={Site} />
         <Route exact path="/site/classify" component={Classify} />
-        <Route exact path="/site/article" component={Demo} />
+        <Route exact path="/site/article" component={Article} />
         <Redirect exact from="/" to="/home" />
         <Route component={NoMatch} />
       </Switch>

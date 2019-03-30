@@ -85,6 +85,21 @@ export const modClassifyRecord = params => axios.post('/api/classify/update', pa
 // 删除分类记录
 export const delClassifyRecord = params => axios.get('/api/classify/delete', { params });
 
+// 获取文章列表
+export const getArticleList = params => axios.get('/api/article/getList', { params });
+
+// 获取文章记录
+export const getArticleRecord = params => axios.get('/api/article/getOne', { params });
+
+// 新增文章记录
+export const addArticleRecord = params => axios.post('/api/article/insert', params);
+
+// 修改文章记录
+export const modArticleRecord = params => axios.post('/api/article/update', params);
+
+// 删除文章记录
+export const delArticleRecord = params => axios.get('/api/article/delete', { params });
+
 // 上传富文本编辑器图片接口
 export const editerUploadUrl = `${config.serverUrl}/api/uploadEditerFile`;
 
