@@ -22,16 +22,16 @@ class TopFilter extends Component {
     onSearch(params);
   };
 
-  createTreeSelect = list => {
-    return list.map(item => {
+  createTreeSelect = arr => {
+    return arr.map(item => {
       if (Array.isArray(item.children) && item.children.length) {
         return (
-          <TreeNode value={item.id} title={item.name} key={item.id}>
+          <TreeNode value={item.value} title={item.name} key={item.value}>
             {this.createTreeSelect(item.children)}
           </TreeNode>
         );
       }
-      return <TreeNode value={item.id} title={item.name} key={item.id} />;
+      return <TreeNode value={item.value} title={item.name} key={item.value} />;
     });
   };
 

@@ -49,7 +49,7 @@ class Article extends Component {
   // 头部筛选条件
   createTopFilters = props => {
     const { classes } = props;
-    const list1 = classes.length && classes[0].id === '0' ? classes[0].children : classes;
+    const classifyList = classes.length && classes[0].id === '0' ? classes[0].children : classes;
     return [
       {
         type: 'TREE_SELECT',
@@ -57,7 +57,7 @@ class Article extends Component {
         fieldName: 'cid',
         placeholder: '所属分类',
         style: { width: 180 },
-        list: list1
+        list: utils.createFilterList(classifyList)
       },
       {
         type: 'RANGE_DATE',
@@ -70,7 +70,7 @@ class Article extends Component {
         label: '搜索条件',
         fieldName: 'title',
         placeholder: '请输入标题名称/拼音头...',
-        style: { width: 200 }
+        style: { width: 220 }
       }
     ];
   };
@@ -78,7 +78,7 @@ class Article extends Component {
   // table 数据列
   createColumns = props => {
     const { classes } = props;
-    const list1 = classes.length && classes[0].id === '0' ? classes[0].children : classes;
+    const classifyList = classes.length && classes[0].id === '0' ? classes[0].children : classes;
     return [
       {
         title: '标题',
@@ -86,11 +86,11 @@ class Article extends Component {
       },
       {
         title: '所属分类',
-        dataIndex: 'ptitle'
-        // filter: true,
-        // filterKey: 'cid',
-        // filterType: 'checkbox',
-        // filterItems: utils.createFilterList(sex)
+        dataIndex: 'ptitle',
+        filter: true,
+        filterKey: 'cid',
+        filterType: 'checkbox',
+        filterItems: utils.createFilterList(classifyList)
       },
       {
         title: '封面图',
