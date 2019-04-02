@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.08 (32 bit)
+SQLyog Ultimate v12.08 (64 bit)
 MySQL - 5.5.61 : Database - app_cms
 *********************************************************************
 */
@@ -30,6 +30,7 @@ CREATE TABLE `article` (
   `img_path` varchar(100) CHARACTER SET utf8 DEFAULT NULL COMMENT '图片路径',
   `video_url` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '视频地址',
   `sort` int(11) unsigned DEFAULT NULL COMMENT '排序值',
+  `views` int(11) unsigned DEFAULT NULL COMMENT '浏览量',
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `create_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   `creator` varchar(64) CHARACTER SET utf8 NOT NULL COMMENT '创建者ID',
@@ -38,6 +39,8 @@ CREATE TABLE `article` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `article` */
+
+insert  into `article`(`id`,`cid`,`title`,`pinyin`,`desc`,`content_id`,`img_path`,`video_url`,`sort`,`views`,`modify_time`,`create_time`,`creator`,`deleted`) values ('6b7bed1d-0043-42d2-aa40-c3bb3a9cb1c8','cjg1ner990001bwg73bolrm2t','1','1','1','62b69343-5a7c-46af-a87a-f8027a60e158','upload/article/309586fc-1a0a-467b-a849-4b8f0eaa4562.jpg','',1,1,'2019-04-02 10:00:35','2019-04-02 10:00:35','1','0');
 
 /*Table structure for table `classify` */
 
@@ -60,7 +63,7 @@ CREATE TABLE `classify` (
 
 /*Data for the table `classify` */
 
-insert  into `classify`(`id`,`pid`,`name`,`desc`,`url`,`img_size`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('171ff60e-5e93-45b1-8c66-4974d7f3f59e','cjg1ndg5u0000bwg77p27ldhq','zzza','zzz','/asd','100*200',100,'2019-03-29 20:27:50','2019-03-29 20:27:16','1','1'),('cjfmgw89k0000akg7ddv3xu0b','0','新闻中心','','/news','',10,'2018-04-14 03:31:46','2018-04-05 07:58:06','1','0'),('cjfmhuxyx000064g7k0s1k043','cjfmgw89k0000akg7ddv3xu0b','新闻11','','/news/one','400*300',12,'2018-06-21 12:15:06','2018-04-05 08:25:05','1','0'),('cjfo02td80000w0g7gi0kwth7','cjfmgw89k0000akg7ddv3xu0b','新闻2','qwe','/news/two','300*160',11,'2018-04-06 09:46:19','2018-04-06 09:42:52','1','0'),('cjg1ndg5u0000bwg77p27ldhq','0','产品中心','','/product','',20,'2018-04-16 10:56:19','2018-04-16 10:56:00','1','0'),('cjg1ner990001bwg73bolrm2t','cjg1ndg5u0000bwg77p27ldhq','产品分类12','','/product/pro1','500*360',21,'2019-03-29 20:26:08','2018-04-16 10:57:01','1','0');
+insert  into `classify`(`id`,`pid`,`name`,`desc`,`url`,`img_size`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('cjfmgw89k0000akg7ddv3xu0b','0','新闻中心','','/news','',10,'2018-04-14 03:31:46','2018-04-05 07:58:06','1','0'),('cjfmhuxyx000064g7k0s1k043','cjfmgw89k0000akg7ddv3xu0b','新闻11','','/news/one','400*300',12,'2018-06-21 12:15:06','2018-04-05 08:25:05','1','0'),('cjfo02td80000w0g7gi0kwth7','cjfmgw89k0000akg7ddv3xu0b','新闻2','qwe','/news/two','300*160',11,'2018-04-06 09:46:19','2018-04-06 09:42:52','1','0'),('cjg1ndg5u0000bwg77p27ldhq','0','产品中心','','/product','',20,'2018-04-16 10:56:19','2018-04-16 10:56:00','1','0'),('cjg1ner990001bwg73bolrm2t','cjg1ndg5u0000bwg77p27ldhq','产品分类12','','/product/pro1','500*360',21,'2019-03-29 20:26:08','2018-04-16 10:57:01','1','0');
 
 /*Table structure for table `content` */
 
@@ -69,10 +72,13 @@ DROP TABLE IF EXISTS `content`;
 CREATE TABLE `content` (
   `id` varchar(64) CHARACTER SET utf8 NOT NULL,
   `content` longtext CHARACTER SET utf8 COMMENT '内容',
+  `deleted` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `content` */
+
+insert  into `content`(`id`,`content`,`deleted`) values ('62b69343-5a7c-46af-a87a-f8027a60e158','<p>111</p>','0');
 
 /*Table structure for table `menu` */
 
