@@ -4,6 +4,9 @@ import config from '@/assets/js/config';
 // 登录接口
 export const doLogin = params => axios.post('/login/do', params);
 
+// 退出登录接口
+export const doLogout = () => axios.get('/login/out');
+
 // 侧边栏导航菜单
 export const getSideMenu = params => axios.get('/api/menu/getList');
 

@@ -68,6 +68,7 @@ class DemoPanel extends Component {
   uploadChangeHandler = fileList => {
     // console.log(fileList);
     this.setState({ fileList });
+    // 设置 form 表单字段的值
     const img_path = fileList.map(file => file.path).join(',');
     this.props.form.setFieldsValue({ img_path });
   };

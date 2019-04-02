@@ -3,7 +3,7 @@
 const Service = require('egg').Service;
 
 class LoginService extends Service {
-  async getUser(username, password) {
+  async login(username, password) {
     const ctx = this.ctx;
     // 数据库 I/O
     const rows = await this.app.mysql.query(
@@ -27,7 +27,6 @@ class LoginService extends Service {
       `,
       [username, ctx.helper.md5(password)]
     );
-
     // console.log(rows)
     if (!rows.length) {
       return false;
@@ -45,6 +44,12 @@ class LoginService extends Service {
       roles: [userInfo.roles],
       token
     };
+  }
+  async logout() {
+    const ctx = this.ctx;
+    ctx.helper.removeToken(this.config.auth.secret);
+    ctx.session = null;
+    return true;
   }
 }
 

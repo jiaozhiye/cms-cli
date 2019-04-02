@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import { getUser } from '@/assets/js/auth';
-import { Menu, Dropdown, Icon, Avatar } from 'antd';
+import { doLogout } from '@/api';
+import { removeToken, removeUser } from '@/assets/js/auth';
+import { Menu, Dropdown, Icon, Avatar, message } from 'antd';
 
 import css from './avatar.module.less';
 
-export default class HeadAvatar extends Component {
+class HeadAvatar extends Component {
   state = {
     username: ''
   };
@@ -14,8 +17,15 @@ export default class HeadAvatar extends Component {
     this.setState({ username: getUser() });
   }
 
-  doLogoutHandler = async e => {
-    console.log(e);
+  doLogoutHandler = async () => {
+    const res = await doLogout();
+    if (res.code === 1) {
+      // 删除 cookie
+      removeToken();
+      removeUser();
+      this.props.history.push('/');
+      message.success(res.message);
+    }
   };
 
   render() {
@@ -44,3 +54,5 @@ export default class HeadAvatar extends Component {
     );
   }
 }
+
+export default withRouter(HeadAvatar);

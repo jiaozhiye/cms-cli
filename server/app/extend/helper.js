@@ -21,6 +21,10 @@ module.exports = {
       return { message };
     }
   },
+  removeToken(secret) {
+    // 移除 token
+    jwt.sign({ name: '', exp: Date.now() - 1 }, secret);
+  },
   createMenuTree(arr) {
     let _root_ = { id: '0', children: [] };
     (function fn(target) {
@@ -51,6 +55,8 @@ module.exports = {
     return '';
   },
   createPinyin(str) {
-    return pinyin(str, { style: pinyin.STYLE_FIRST_LETTER }).map(item => item[0]).join('');
+    return pinyin(str, { style: pinyin.STYLE_FIRST_LETTER })
+      .map(item => item[0])
+      .join('');
   }
 };
