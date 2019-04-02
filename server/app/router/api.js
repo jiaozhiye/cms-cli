@@ -38,4 +38,5 @@ module.exports = app => {
   router.post('/api/article/update', controller.article.modOne);
   router.get('/api/article/delete', controller.article.delOne);
   router.post('/api/upload/articleImg', controller.upload.article);
+  router.post('/api/upload/editorFile', controller.upload.editor);
 };

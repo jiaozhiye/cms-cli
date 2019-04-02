@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { getToken } from '@/assets/js/auth';
 import BraftEditor from 'braft-editor';
 import Table from 'braft-extensions/dist/table';
 import { ContentUtils } from 'braft-utils';
@@ -14,6 +15,7 @@ import css from './index.module.less';
 
 class Editor extends Component {
   state = {
+    headers: { 'x-access-token': getToken() || '' },
     editorState: null,
     outputHTML: '<p></p>'
   };
@@ -131,14 +133,14 @@ class Editor extends Component {
   }
 
   render() {
-    const { editorState } = this.state;
+    const { editorState, headers } = this.state;
     const extendControls = [
       {
         key: 'antd-uploader',
         type: 'component',
         className: 'fl',
         component: (
-          <Upload action={editorUploadUrl} accept="image/*" showUploadList={false} onChange={this.changeHandler}>
+          <Upload action={editorUploadUrl} accept="image/*" headers={headers} showUploadList={false} onChange={this.changeHandler}>
             <button type="button" className="control-item button upload-button" data-title="插入图片">
               <Icon type="picture" theme="filled" />
             </button>

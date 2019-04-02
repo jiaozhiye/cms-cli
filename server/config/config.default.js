@@ -26,7 +26,8 @@ module.exports = appInfo => {
 
   // 文件上传路径
   config.uploadDir = {
-    article: 'article'
+    article: 'article',
+    editor: 'editor'
   };
 
   // 跨域请求白名单
