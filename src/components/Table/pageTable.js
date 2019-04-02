@@ -61,17 +61,19 @@ class PageTable extends Component {
     // console.log(filters, sorter);
     const { columns } = this.props;
     // 处理排序字段
-    let sort = sorter.field ? `${sorter.field}=${sorter.order.slice(0, -3)}` : undefined;
+    let orderBy = sorter.field ? { sort: `${sorter.field}=${sorter.order.slice(0, -3)}` } : {};
     // 处理筛选字段
     let filter = {};
     for (let key in filters) {
       const column = columns.find(item => item.dataIndex === key);
       const filterKey = column.filterKey ? column.filterKey : column.dataIndex;
-      filter[filterKey] = filters[key];
+      if (filters[key].length) {
+        filter[filterKey] = filters[key];
+      }
     }
     // 分页
     const pager = { ...this.state.pagination, ...{ current: pagination.current } };
-    this.setState({ pagination: pager, filters: { sort, ...filter } }, this.getRecords);
+    this.setState({ pagination: pager, filters: { ...orderBy, ...filter } }, this.getRecords);
   };
 
   render() {

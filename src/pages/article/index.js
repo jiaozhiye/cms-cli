@@ -5,16 +5,17 @@ import { bindActionCreators } from 'redux';
 import actionCreators from '@/store/actions';
 
 import utils from '@/utils';
-import { getArticleList } from '@/api';
+import config from '@/assets/js/config';
+import { getArticleList, addArticleRecord, modArticleRecord, delArticleRecord } from '@/api';
 
 import TopFilter from '@/components/TopFilter';
 import ColumnFilter from '@/components/ColumnFilter';
 import FilterTable from '@/components/Table/filterTable';
-import DemoPanel from '@/components/DemoPanel';
+import ArticlePanel from '@/components/ArticlePanel';
 
 import css from './index.module.less';
 
-import { Card, Drawer, Button, Icon, Divider, Popconfirm, message } from 'antd';
+import { Card, Drawer, Button, Icon, Divider, Popconfirm, message, Modal } from 'antd';
 
 @connect(
   state => ({
@@ -32,6 +33,8 @@ class Article extends Component {
       formPanel: {}, // 新增/编辑 表单面板
       params: {}, // Toper 搜索参数
       fetchApiFunc: getArticleList, // table 数据接口
+      previewVisible: false,
+      previewImage: '',
       topFilterList: this.createTopFilters(this.props),
       columns: this.createColumns(this.props)
     };
@@ -86,7 +89,7 @@ class Article extends Component {
       },
       {
         title: '所属分类',
-        dataIndex: 'ptitle',
+        dataIndex: 'claname',
         filter: true,
         filterKey: 'cid',
         filterType: 'checkbox',
@@ -94,7 +97,19 @@ class Article extends Component {
       },
       {
         title: '封面图',
-        dataIndex: 'img_path'
+        dataIndex: 'img_path',
+        render: text => (
+          <Card
+            hoverable
+            style={{ width: 100 }}
+            bodyStyle={{ padding: 0 }}
+            onClick={e => {
+              e.preventDefault();
+              this.handlePreview(text);
+            }}
+            cover={<img src={`${config.serverUrl}/${text}`} alt="" />}
+          />
+        )
       },
       {
         title: '排序',
@@ -133,25 +148,38 @@ class Article extends Component {
     ];
   };
 
+  // 图片预览
+  handlePreview = path => {
+    this.setState({
+      previewImage: `${config.serverUrl}/${path}`,
+      previewVisible: true
+    });
+  };
+
   // 保存/更新
   saveHandler = async formDate => {
     const { type } = this.state.formPanel;
-    console.log(type, formDate);
+    let res;
     if (type === 'add') {
-      // 新增
+      res = await addArticleRecord(formDate);
     }
     if (type === 'edit') {
-      // 更新
+      res = await modArticleRecord(formDate);
     }
-    message.success('保存成功！');
-    this.closeDrawer();
-    this.reloadHandler();
+    if (res.code === 1) {
+      message.success(res.message);
+      this.closeDrawer();
+      this.reloadHandler();
+    }
   };
 
   // 删除
   deleteHandler = async id => {
-    message.success('删除成功！');
-    this.reloadHandler();
+    const res = await delArticleRecord({ id });
+    if (res.code === 1) {
+      message.success(res.message);
+      this.reloadHandler();
+    }
   };
 
   // 头部搜索方法
@@ -196,7 +224,7 @@ class Article extends Component {
   };
 
   render() {
-    const { topFilterList, params, fetchApiFunc, columns, visible, formPanel } = this.state;
+    const { topFilterList, params, fetchApiFunc, columns, visible, formPanel, previewVisible, previewImage } = this.state;
     return (
       <>
         <Card size="small" className={css['card-bor']} bordered={false}>
@@ -211,9 +239,12 @@ class Article extends Component {
           </div>
         </Card>
         <FilterTable columns={columns} params={params} fetch={fetchApiFunc} onTableChange={val => {}} />
-        <Drawer visible={visible} destroyOnClose title={formPanel.title} width={600} onClose={this.closeDrawer}>
-          <DemoPanel {...formPanel} onSave={formDate => this.saveHandler(formDate)} />
+        <Drawer visible={visible} destroyOnClose title={formPanel.title} width={800} onClose={this.closeDrawer}>
+          <ArticlePanel {...formPanel} onSave={formDate => this.saveHandler(formDate)} />
         </Drawer>
+        <Modal visible={previewVisible} bodyStyle={{ padding: 10 }} footer={null} onCancel={() => this.setState({ previewVisible: false })}>
+          <img style={{ width: '100%' }} src={previewImage} alt="" />
+        </Modal>
       </>
     );
   }

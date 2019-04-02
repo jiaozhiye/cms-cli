@@ -100,8 +100,11 @@ export const modArticleRecord = params => axios.post('/api/article/update', para
 // 删除文章记录
 export const delArticleRecord = params => axios.get('/api/article/delete', { params });
 
+// 文章列表封面图上传接口
+export const articleImgUploadUrl = `${config.serverUrl}/api/upload/articleImg`;
+
 // 上传富文本编辑器图片接口
-export const editerUploadUrl = `${config.serverUrl}/api/uploadEditerFile`;
+export const editorUploadUrl = `${config.serverUrl}/api/upload/editorFile`;
 
 // 测试接口
 export const testRequest = params => axios.get('/api/test', { params });

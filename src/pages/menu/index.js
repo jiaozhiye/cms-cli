@@ -16,7 +16,9 @@ import { Card, Drawer, Button, Icon, Divider, Popconfirm, message } from 'antd';
 
 @connect(
   state => ({}),
-  dispatch => ({})
+  dispatch => ({
+    actions: bindActionCreators(actionCreators, dispatch)
+  })
 )
 class Menu extends Component {
   constructor(props) {

@@ -98,7 +98,7 @@ class DemoPanel extends Component {
               })(
                 <Select placeholder="选择角色">
                   {roles.map(item => (
-                    <Option key={item.value} value={item.value}>
+                    <Option key={item.id} value={item.id}>
                       {item.name}
                     </Option>
                   ))}

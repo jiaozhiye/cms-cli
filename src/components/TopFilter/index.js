@@ -129,11 +129,11 @@ class TopFilter extends Component {
         data.forEach(item => {
           const val = values[item.fieldName];
           if (item.type === 'DATE') {
-            values[item.fieldName] = this.isEmpty(val) ? dateFormat(val) : '';
+            values[item.fieldName] = this.isTure(val) ? dateFormat(val) : undefined;
           } else if (item.type === 'RANGE_DATE') {
-            values[item.fieldName] = this.isEmpty(val) ? val.map(date => dateFormat(date)) : ['', ''];
+            values[item.fieldName] = this.isTure(val) ? val.map(date => dateFormat(date)) : [];
           } else {
-            values[item.fieldName] = this.isEmpty(val) ? val : '';
+            values[item.fieldName] = this.isTure(val) ? val : undefined;
           }
         });
         onSearch(values);
@@ -146,7 +146,7 @@ class TopFilter extends Component {
     this.props.form.resetFields();
   };
 
-  isEmpty = val => {
+  isTure = val => {
     if (Array.isArray(val)) {
       return Boolean(val.length);
     }

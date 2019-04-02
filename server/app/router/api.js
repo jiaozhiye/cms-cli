@@ -33,4 +33,9 @@ module.exports = app => {
   router.post('/api/classify/update', controller.classify.modOne);
   router.get('/api/classify/delete', controller.classify.delOne);
   router.get('/api/article/getList', controller.article.getList);
+  router.get('/api/article/getOne', controller.article.getOne);
+  router.post('/api/article/insert', controller.article.addOne);
+  router.post('/api/article/update', controller.article.modOne);
+  router.get('/api/article/delete', controller.article.delOne);
+  router.post('/api/upload/articleImg', controller.upload.article);
 };

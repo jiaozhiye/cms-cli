@@ -1,5 +1,7 @@
 'use strict';
 
+const path = require('path');
+
 module.exports = appInfo => {
   const config = (exports = {});
 
@@ -10,6 +12,21 @@ module.exports = appInfo => {
   config.security = {
     csrf: false, // 关闭 csrf 防范
     ignoreJSON: true
+  };
+
+  // 文件上传启用 file 模式
+  config.multipart = {
+    mode: 'file'
+  };
+
+  // 静态资源配置
+  config.static = {
+    dir: [{ prefix: '/', dir: path.join(appInfo.baseDir, 'app/public') }, { prefix: '/upload', dir: path.join(appInfo.baseDir, 'app/upload') }]
+  };
+
+  // 文件上传路径
+  config.uploadDir = {
+    article: 'article'
   };
 
   // 跨域请求白名单

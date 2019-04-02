@@ -36,14 +36,14 @@
 .tr {
   text-align: right;
 }
-.clearFix::after {
+.clearfix::after {
   content: '';
   height: 0;
   visibility: hidden;
   clear: both;
   display: block;
 }
-.clearFix {
+.clearfix {
   zoom: 1;
 }
 

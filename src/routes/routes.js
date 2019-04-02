@@ -46,11 +46,6 @@ const Article = Loadable({
   loading: Loading
 });
 
-const Demo = Loadable({
-  loader: () => import('@/pages/demo'),
-  loading: Loading
-});
-
 const NoMatch = Loadable({
   loader: () => import('@/pages/no-match'),
   loading: Loading

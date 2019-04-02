@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 import BraftEditor from 'braft-editor';
 import Table from 'braft-extensions/dist/table';
 import { ContentUtils } from 'braft-utils';
 import { Upload, Icon } from 'antd';
 
-import { editerUploadUrl } from '@/api';
+import { editorUploadUrl } from '@/api';
 
 import 'braft-editor/dist/index.css';
 import 'braft-extensions/dist/table.css';
@@ -47,9 +47,10 @@ class Editor extends Component {
   };
 
   handleEditorChange = editorState => {
+    const { onEditorChange } = this.props;
     const outputHTML = editorState.toHTML();
     this.setState({ editorState, outputHTML });
-    this.props.onChange(outputHTML);
+    onEditorChange && onEditorChange(outputHTML);
   };
 
   changeHandler = ({ file }) => {
@@ -137,7 +138,7 @@ class Editor extends Component {
         type: 'component',
         className: 'fl',
         component: (
-          <Upload action={editerUploadUrl} accept="image/*" showUploadList={false} onChange={this.changeHandler}>
+          <Upload action={editorUploadUrl} accept="image/*" showUploadList={false} onChange={this.changeHandler}>
             <button type="button" className="control-item button upload-button" data-title="插入图片">
               <Icon type="picture" theme="filled" />
             </button>
@@ -153,17 +154,17 @@ class Editor extends Component {
       }
     ];
 
-    return <BraftEditor id="editor-with-table" className={css['editor-wrapper']} value={editorState} placeholder="请输入正文内容" extendControls={extendControls} onChange={this.handleEditorChange} />;
+    return <BraftEditor id="editor-with-table" {...this.props} className={css['editor-wrapper']} value={editorState} extendControls={extendControls} onChange={this.handleEditorChange} />;
   }
 }
 
 Editor.propTypes = {
   inputHTML: PropTypes.string,
-  onChange: PropTypes.func
-}
+  onEditorChange: PropTypes.func
+};
 
 Editor.defaultProps = {
   inputHTML: '<p></p>'
-}
+};
 
-export default Editor
+export default Editor;

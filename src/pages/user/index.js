@@ -57,7 +57,7 @@ class User extends Component {
         fieldName: 'role_id',
         placeholder: '全部',
         style: { width: 120 },
-        list: roles
+        list: utils.createFilterList(roles)
       },
       {
         type: 'INPUT',

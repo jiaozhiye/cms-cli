@@ -8,7 +8,7 @@ import PowerPanel from '@/components/PowerPanel';
 import css from './index.module.less';
 import { getPowerList, setRolePower } from '@/api';
 
-import { Card, Drawer, Button, Icon, Divider, Popconfirm, message } from 'antd';
+import { Card, Drawer, message } from 'antd';
 
 class Role extends Component {
   constructor(props) {
