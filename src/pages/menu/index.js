@@ -177,8 +177,8 @@ class Menu extends Component {
           onExpandedRowsChange={expandedRows => {
             this.setState({ expandedRowKeys: expandedRows });
           }}
-          onTableChange={val => {
-            this.setExpandedRowKeys(val);
+          onTableChange={({ data }) => {
+            this.setExpandedRowKeys(data);
           }}
         />
         <Drawer visible={visible} destroyOnClose title={formPanel.title} width={600} onClose={this.closeDrawer}>
