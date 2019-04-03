@@ -141,7 +141,7 @@ class ArticlePanel extends Component {
               })(<BraftEditor inputHTML={data.content} placeholder="请输入正文内容" onEditorChange={this.editorChangeHandler} />)}
         </FormItem>
         <FormItem label="封面图" {...formItemLayout} extra="图片尺寸：320*360">
-          {isShowItem ? <Card style={{ width: 120 }} bodyStyle={{ padding: 0 }} cover={<img src={`${config.serverUrl}/${data.img_path}`} alt="" />} /> : getFieldDecorator('img_path')(<Upload action={articleImgUploadUrl} fileList={this.state.fileList} onUploadChange={this.uploadChangeHandler} />)}
+          {isShowItem ? <Card style={{ width: 120, minHeight: 70 }} bodyStyle={{ padding: 0 }} cover={<img src={`${config.serverUrl}/${data.img_path}`} alt="" />} /> : getFieldDecorator('img_path')(<Upload action={articleImgUploadUrl} fileList={this.state.fileList} onUploadChange={this.uploadChangeHandler} />)}
         </FormItem>
         <FormItem label="视频地址" {...formItemLayout}>
           {isShowItem
