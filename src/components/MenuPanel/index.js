@@ -17,7 +17,7 @@ const { TreeNode } = TreeSelect;
   }),
   dispatch => ({})
 )
-class DemoPanel extends Component {
+class MenuPanel extends Component {
   state = {};
 
   componentDidMount() {
@@ -159,9 +159,9 @@ class DemoPanel extends Component {
   }
 }
 
-DemoPanel.propTypes = {
+MenuPanel.propTypes = {
   type: PropTypes.string.isRequired,
   onSave: PropTypes.func.isRequired
 };
 
-export default Form.create({})(DemoPanel);
+export default Form.create({})(MenuPanel);

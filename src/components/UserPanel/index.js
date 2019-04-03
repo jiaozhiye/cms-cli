@@ -17,7 +17,7 @@ const { Option } = Select;
   }),
   dispatch => ({})
 )
-class DemoPanel extends Component {
+class UserPanel extends Component {
   state = {};
 
   componentDidMount() {
@@ -171,9 +171,9 @@ class DemoPanel extends Component {
   }
 }
 
-DemoPanel.propTypes = {
+UserPanel.propTypes = {
   type: PropTypes.string.isRequired,
   onSave: PropTypes.func.isRequired
 };
 
-export default Form.create({})(DemoPanel);
+export default Form.create({})(UserPanel);

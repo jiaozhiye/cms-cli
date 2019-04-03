@@ -1,5 +1,5 @@
 /*
-SQLyog Ultimate v12.08 (64 bit)
+SQLyog Ultimate v12.08 (32 bit)
 MySQL - 5.5.61 : Database - app_cms
 *********************************************************************
 */
@@ -40,7 +40,7 @@ CREATE TABLE `article` (
 
 /*Data for the table `article` */
 
-insert  into `article`(`id`,`cid`,`title`,`pinyin`,`desc`,`content_id`,`img_path`,`video_url`,`sort`,`views`,`modify_time`,`create_time`,`creator`,`deleted`) values ('6b7bed1d-0043-42d2-aa40-c3bb3a9cb1c8','cjg1ner990001bwg73bolrm2t','1','1','1','62b69343-5a7c-46af-a87a-f8027a60e158','upload/article/309586fc-1a0a-467b-a849-4b8f0eaa4562.jpg','',1,1,'2019-04-02 10:00:35','2019-04-02 10:00:35','1','0');
+insert  into `article`(`id`,`cid`,`title`,`pinyin`,`desc`,`content_id`,`img_path`,`video_url`,`sort`,`views`,`modify_time`,`create_time`,`creator`,`deleted`) values ('a9b7dacb-4952-4b88-a043-104ad8d9e6be','cjfo02td80000w0g7gi0kwth7','商品名称','spmc','','fd257e84-edb8-4612-99ee-efef742cebc4','','',1,10,'2019-04-03 20:14:15','2019-04-03 20:14:15','1','0');
 
 /*Table structure for table `classify` */
 
@@ -63,7 +63,7 @@ CREATE TABLE `classify` (
 
 /*Data for the table `classify` */
 
-insert  into `classify`(`id`,`pid`,`name`,`desc`,`url`,`img_size`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('cjfmgw89k0000akg7ddv3xu0b','0','新闻中心','','/news','',10,'2018-04-14 03:31:46','2018-04-05 07:58:06','1','0'),('cjfmhuxyx000064g7k0s1k043','cjfmgw89k0000akg7ddv3xu0b','新闻11','','/news/one','400*300',12,'2018-06-21 12:15:06','2018-04-05 08:25:05','1','0'),('cjfo02td80000w0g7gi0kwth7','cjfmgw89k0000akg7ddv3xu0b','新闻2','qwe','/news/two','300*160',11,'2018-04-06 09:46:19','2018-04-06 09:42:52','1','0'),('cjg1ndg5u0000bwg77p27ldhq','0','产品中心','','/product','',20,'2018-04-16 10:56:19','2018-04-16 10:56:00','1','0'),('cjg1ner990001bwg73bolrm2t','cjg1ndg5u0000bwg77p27ldhq','产品分类12','','/product/pro1','500*360',21,'2019-03-29 20:26:08','2018-04-16 10:57:01','1','0');
+insert  into `classify`(`id`,`pid`,`name`,`desc`,`url`,`img_size`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('cjfmgw89k0000akg7ddv3xu0b','0','新闻中心','','/news','',10,'2019-04-03 20:13:14','2018-04-05 07:58:06','1','0'),('cjfmhuxyx000064g7k0s1k043','cjfmgw89k0000akg7ddv3xu0b','资讯','','/news/zx','300*200',12,'2019-04-03 20:08:06','2018-04-05 08:25:05','1','0'),('cjfo02td80000w0g7gi0kwth7','cjfmgw89k0000akg7ddv3xu0b','热点','','/news/hot','300*200',11,'2019-04-03 20:08:02','2018-04-06 09:42:52','1','0'),('cjg1ndg5u0000bwg77p27ldhq','0','产品中心','','/product','',20,'2019-04-03 20:13:21','2018-04-16 10:56:00','1','0'),('cjg1ner990001bwg73bolrm2t','cjg1ndg5u0000bwg77p27ldhq','最新上架','','/product/new','300*200',21,'2019-04-03 20:08:20','2018-04-16 10:57:01','1','0'),('e88cf700-3990-4c54-a409-042a9b6cd325','cjg1ndg5u0000bwg77p27ldhq','优惠商品','','/product/yh','300*200',22,'2019-04-03 20:08:24','2019-04-03 19:10:58','1','0');
 
 /*Table structure for table `content` */
 
@@ -78,7 +78,7 @@ CREATE TABLE `content` (
 
 /*Data for the table `content` */
 
-insert  into `content`(`id`,`content`,`deleted`) values ('62b69343-5a7c-46af-a87a-f8027a60e158','<p>111</p>','0');
+insert  into `content`(`id`,`content`,`deleted`) values ('fd257e84-edb8-4612-99ee-efef742cebc4','<p>商品名称</p>','0');
 
 /*Table structure for table `menu` */
 
@@ -121,7 +121,7 @@ CREATE TABLE `role` (
 
 /*Data for the table `role` */
 
-insert  into `role`(`id`,`name`,`desc`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('1','超级管理员','超级管理员',1,'2019-03-26 22:00:56','2019-03-26 15:14:41','1','0'),('24567e6c-dd7c-4021-bd1f-c73fcbe86d27','1','1',11,'2019-03-27 09:57:24','2019-03-27 09:56:57','1','0');
+insert  into `role`(`id`,`name`,`desc`,`sort`,`modify_time`,`create_time`,`creator`,`deleted`) values ('1','超级管理员','超级管理员',1,'2019-03-26 22:00:56','2019-03-26 15:14:41','1','0'),('24567e6c-dd7c-4021-bd1f-c73fcbe86d27','网站编辑','网站编辑',2,'2019-04-03 18:59:09','2019-03-27 09:56:57','1','0');
 
 /*Table structure for table `role_menu` */
 
@@ -140,7 +140,7 @@ CREATE TABLE `role_menu` (
 
 /*Data for the table `role_menu` */
 
-insert  into `role_menu`(`id`,`menu_id`,`role_id`,`access`,`creator`,`modify_time`,`create_time`) values ('054eaf4c-b2f5-41d2-a134-d51bdb8e2495','d4d35841-bfdf-4d79-a1fd-019f7597f3e7','1','1','1','2019-03-29 21:05:32','2019-03-29 21:05:32'),('2be0e669-d3d3-4d32-a0c4-4aec2780ea65','6c4c1d96-9ade-4eb7-a4fb-c5a2ec8bf264','1','1','1','2019-03-29 21:05:32','2019-03-29 21:05:32'),('3f0905e6-7d21-4758-b3cc-ddbafecf1ee5','6f8f7e9d-119d-417b-a2b1-d6a4f5462dd8','1','1','1','2019-03-29 21:05:32','2019-03-29 21:05:32'),('411e566d-60d3-433b-8b36-b92e2e0ea641','1fd9992b-8a78-4fb2-a1a3-3c01bf135200','1','1','1','2019-03-29 21:05:32','2019-03-29 21:05:32'),('4acdfed6-5842-4fe3-bea7-958c1557045a','e8b1c555-fa66-4ac7-8db6-8d27cb385bd1','1','1','1','2019-03-29 21:05:32','2019-03-29 21:05:32'),('586d9ecd-4df3-4390-9a1c-84f6f8dfd888','d9b04ca0-9e9c-4619-90dd-a49e39e21c87','1','1','1','2019-03-29 21:05:32','2019-03-29 21:05:32'),('723573d2-3aad-4fc3-b131-f7a5fe38ae13','3c087840-9a3a-442a-a315-bed22c78815e','1','1','1','2019-03-29 21:05:32','2019-03-29 21:05:32'),('847837d6-b731-44d5-8b3e-339cd6e3c21c','44abfa1d-24ca-45cc-b627-f652e3d6e5e8','1','1','1','2019-03-29 21:05:32','2019-03-29 21:05:32'),('f52ed5bb-06e3-42c9-aade-e3d7059600d0','6725294a-c2af-4c06-9a18-045fdc9c6b33','1','1','1','2019-03-29 21:05:32','2019-03-29 21:05:32'),('f96e0209-2c8d-4d4b-b052-f869eb2a1715','4b3f9a42-6425-490e-b7ff-ca42103d3f72','1','1','1','2019-03-29 21:05:32','2019-03-29 21:05:32');
+insert  into `role_menu`(`id`,`menu_id`,`role_id`,`access`,`creator`,`modify_time`,`create_time`) values ('01f1b550-5c1a-4923-ae0d-bb657e9ce14a','d9b04ca0-9e9c-4619-90dd-a49e39e21c87','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','0','1','2019-04-03 19:05:51','2019-04-03 19:05:51'),('026e4409-c69a-4331-9637-a0b8e8892454','3c087840-9a3a-442a-a315-bed22c78815e','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','0','1','2019-04-03 19:05:51','2019-04-03 19:05:51'),('04fe8b70-e386-40e5-b65e-43fa4364e260','1fd9992b-8a78-4fb2-a1a3-3c01bf135200','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','0','1','2019-04-03 19:05:51','2019-04-03 19:05:51'),('1fe2bf4e-ad45-42d9-ae5a-d4e642320995','e8b1c555-fa66-4ac7-8db6-8d27cb385bd1','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','0','1','2019-04-03 19:05:51','2019-04-03 19:05:51'),('290a3894-b218-4502-b5a7-b0f8b11e3e7e','44abfa1d-24ca-45cc-b627-f652e3d6e5e8','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','1','1','2019-04-03 19:05:51','2019-04-03 19:05:51'),('3042a13b-6be8-4993-ae99-5a551705e402','6f8f7e9d-119d-417b-a2b1-d6a4f5462dd8','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','0','1','2019-04-03 19:05:51','2019-04-03 19:05:51'),('317d4092-f74c-451f-b86b-1fcec93e51cd','6725294a-c2af-4c06-9a18-045fdc9c6b33','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','1','1','2019-04-03 19:05:51','2019-04-03 19:05:51'),('3669a195-90da-4e85-8226-78c62b1adc9f','44abfa1d-24ca-45cc-b627-f652e3d6e5e8','1','1','1','2019-04-03 20:03:11','2019-04-03 20:03:11'),('3958e910-6a4d-4a86-806c-cc7ac471a1e8','d4d35841-bfdf-4d79-a1fd-019f7597f3e7','1','1','1','2019-04-03 20:03:11','2019-04-03 20:03:11'),('3ee9c6e6-14d9-44f1-91a8-ab84a4c2c31d','1fd9992b-8a78-4fb2-a1a3-3c01bf135200','1','1','1','2019-04-03 20:03:11','2019-04-03 20:03:11'),('5e7ff86a-bc22-4fd3-a09a-63d75d6f08dc','4b3f9a42-6425-490e-b7ff-ca42103d3f72','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','1','1','2019-04-03 19:05:51','2019-04-03 19:05:51'),('7141ba3c-4104-40fe-b4e2-f135027f9932','d9b04ca0-9e9c-4619-90dd-a49e39e21c87','1','1','1','2019-04-03 20:03:11','2019-04-03 20:03:11'),('950dcbf2-4d50-4e07-9058-249809b45b9a','3c087840-9a3a-442a-a315-bed22c78815e','1','1','1','2019-04-03 20:03:11','2019-04-03 20:03:11'),('998c06d4-9318-4c8e-b484-e893535d8378','6725294a-c2af-4c06-9a18-045fdc9c6b33','1','1','1','2019-04-03 20:03:11','2019-04-03 20:03:11'),('be72d4aa-edfb-4c99-a1d7-6eedf38875dc','4b3f9a42-6425-490e-b7ff-ca42103d3f72','1','1','1','2019-04-03 20:03:11','2019-04-03 20:03:11'),('d4f43916-763c-4115-b82c-daf6f81a4b42','e8b1c555-fa66-4ac7-8db6-8d27cb385bd1','1','1','1','2019-04-03 20:03:11','2019-04-03 20:03:11'),('d8e63945-c002-45a5-a909-a926e3be8e40','d4d35841-bfdf-4d79-a1fd-019f7597f3e7','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','1','1','2019-04-03 19:05:51','2019-04-03 19:05:51'),('ddf0fe96-93bf-4462-af14-5ae0c72abeaa','6c4c1d96-9ade-4eb7-a4fb-c5a2ec8bf264','1','1','1','2019-04-03 20:03:11','2019-04-03 20:03:11'),('e69d0ba6-1cce-4ee0-aa87-41590907dae2','6c4c1d96-9ade-4eb7-a4fb-c5a2ec8bf264','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','0','1','2019-04-03 19:05:51','2019-04-03 19:05:51'),('f8b91262-9a5b-468e-9688-8ec42f99913d','6f8f7e9d-119d-417b-a2b1-d6a4f5462dd8','1','1','1','2019-04-03 20:03:11','2019-04-03 20:03:11');
 
 /*Table structure for table `site_config` */
 
@@ -166,7 +166,7 @@ CREATE TABLE `site_config` (
 
 /*Data for the table `site_config` */
 
-insert  into `site_config`(`id`,`domain`,`title`,`keywords`,`description`,`copy`,`address`,`telephone`,`email`,`records`,`modify_time`,`create_time`,`creator`,`deleted`) values ('b719f6ae-2e5f-4ca7-910e-2aae904c14b2','','1','1','1','1','1','1,2','1','1','2019-03-28 20:46:16','2019-03-28 20:42:51','1','0');
+insert  into `site_config`(`id`,`domain`,`title`,`keywords`,`description`,`copy`,`address`,`telephone`,`email`,`records`,`modify_time`,`create_time`,`creator`,`deleted`) values ('b719f6ae-2e5f-4ca7-910e-2aae904c14b2','','官网','1','1','1','1','1,2','1','1','2019-04-03 19:07:11','2019-03-28 20:42:51','1','0');
 
 /*Table structure for table `user` */
 
@@ -192,7 +192,7 @@ CREATE TABLE `user` (
 
 /*Data for the table `user` */
 
-insert  into `user`(`id`,`username`,`password`,`name`,`pinyin`,`sex`,`phone`,`email`,`sort`,`img_path`,`role_id`,`modify_time`,`create_time`,`deleted`) values ('1','qwe','3675ac5c859c806b26e02e6f9fd62192','大海','dh','0','13012345678','123456@163.com',1,'','1','2019-03-29 21:07:02','2019-03-26 15:11:16','0'),('a5d7db96-ad77-4cc6-9dec-800cfa587590','asd','14e1b600b1fd579f47433b88e8d85291','火山','hs','1','13012345678','',2,'','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','2019-03-29 21:04:51','2019-03-28 21:02:00','0');
+insert  into `user`(`id`,`username`,`password`,`name`,`pinyin`,`sex`,`phone`,`email`,`sort`,`img_path`,`role_id`,`modify_time`,`create_time`,`deleted`) values ('1','qwe','3675ac5c859c806b26e02e6f9fd62192','管理员','gly','0','13012345678','123456@163.com',1,'','1','2019-04-03 19:00:47','2019-03-26 15:11:16','0'),('a5d7db96-ad77-4cc6-9dec-800cfa587590','asd','14e1b600b1fd579f47433b88e8d85291','萌萌','mm','1','13012345678','123456@163.com',2,'','24567e6c-dd7c-4021-bd1f-c73fcbe86d27','2019-04-03 19:02:17','2019-03-28 21:02:00','0');
 
 /* Procedure structure for procedure `ii` */
 

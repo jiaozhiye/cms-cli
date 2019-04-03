@@ -98,18 +98,22 @@ class Article extends Component {
       {
         title: '封面图',
         dataIndex: 'img_path',
-        render: text => (
-          <Card
-            hoverable
-            style={{ width: 100 }}
-            bodyStyle={{ padding: 0 }}
-            onClick={e => {
-              e.preventDefault();
-              this.handlePreview(text);
-            }}
-            cover={<img src={`${config.serverUrl}/${text}`} alt="" />}
-          />
-        )
+        render: text => {
+          return !text ? (
+            <span>暂无图片</span>
+          ) : (
+            <Card
+              hoverable
+              style={{ width: 100 }}
+              bodyStyle={{ padding: 0 }}
+              onClick={e => {
+                e.preventDefault();
+                this.handlePreview(text);
+              }}
+              cover={<img src={`${config.serverUrl}/${text}`} alt="" />}
+            />
+          );
+        }
       },
       {
         title: '排序',
@@ -224,8 +228,8 @@ class Article extends Component {
   };
 
   // table 数据改变
-  tableChangeHandler = res => {
-    this.setState({ totalRow: res.totalRow });
+  tableChangeHandler = ({ totalRow }) => {
+    this.setState({ totalRow });
   };
 
   render() {

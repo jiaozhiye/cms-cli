@@ -17,7 +17,7 @@ const { TreeNode } = TreeSelect;
   }),
   dispatch => ({})
 )
-class DemoPanel extends Component {
+class ClassifyPanel extends Component {
   state = {};
 
   componentDidMount() {
@@ -123,7 +123,7 @@ class DemoPanel extends Component {
             ? data.img_size
             : getFieldDecorator('img_size', {
                 initialValue: data.img_size
-              })(<Input placeholder="格式 320*640" />)}
+              })(<Input placeholder="格式 300*200" />)}
         </FormItem>
         <FormItem label="排序" {...formItemLayout}>
           {isShowItem
@@ -159,9 +159,9 @@ class DemoPanel extends Component {
   }
 }
 
-DemoPanel.propTypes = {
+ClassifyPanel.propTypes = {
   type: PropTypes.string.isRequired,
   onSave: PropTypes.func.isRequired
 };
 
-export default Form.create({})(DemoPanel);
+export default Form.create({})(ClassifyPanel);

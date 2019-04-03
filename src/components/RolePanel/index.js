@@ -15,7 +15,7 @@ const FormItem = Form.Item;
   }),
   dispatch => ({})
 )
-class DemoPanel extends Component {
+class RolePanel extends Component {
   state = {};
 
   componentDidMount() {
@@ -117,9 +117,9 @@ class DemoPanel extends Component {
   }
 }
 
-DemoPanel.propTypes = {
+RolePanel.propTypes = {
   type: PropTypes.string.isRequired,
   onSave: PropTypes.func.isRequired
 };
 
-export default Form.create({})(DemoPanel);
+export default Form.create({})(RolePanel);

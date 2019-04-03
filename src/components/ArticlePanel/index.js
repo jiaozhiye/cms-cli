@@ -20,7 +20,7 @@ const { TreeNode } = TreeSelect;
   }),
   dispatch => ({})
 )
-class DemoPanel extends Component {
+class ArticlePanel extends Component {
   state = {
     fileList: []
   };
@@ -66,7 +66,6 @@ class DemoPanel extends Component {
   };
 
   uploadChangeHandler = fileList => {
-    // console.log(fileList);
     this.setState({ fileList });
     // 设置 form 表单字段的值
     const img_path = fileList.map(file => file.path).join(',');
@@ -164,7 +163,7 @@ class DemoPanel extends Component {
           {isShowItem
             ? data.views
             : getFieldDecorator('views', {
-                initialValue: data.sort || 1
+                initialValue: data.views || 1
               })(<InputNumber min={1} max={10000} />)}
         </FormItem>
         {isShowItem ? null : (
@@ -194,9 +193,9 @@ class DemoPanel extends Component {
   }
 }
 
-DemoPanel.propTypes = {
+ArticlePanel.propTypes = {
   type: PropTypes.string.isRequired,
   onSave: PropTypes.func.isRequired
 };
 
-export default Form.create({})(DemoPanel);
+export default Form.create({})(ArticlePanel);

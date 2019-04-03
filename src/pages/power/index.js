@@ -30,7 +30,7 @@ class Role extends Component {
         type: 'INPUT',
         label: '搜索条件',
         fieldName: 'name',
-        placeholder: '请输入...',
+        placeholder: '请输入角色名称...',
         style: { width: 220 }
       }
     ];
