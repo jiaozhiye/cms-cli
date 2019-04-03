@@ -46,7 +46,7 @@ class PageTable extends Component {
       const pager = { ...pagination, ...{ total: res.totalRow } };
       this.setState({ data: res.data, pagination: pager });
       // 执行回掉
-      onTableChange && onTableChange(res.data);
+      onTableChange && onTableChange(res);
     }
     this.setState({ loading: false });
   };

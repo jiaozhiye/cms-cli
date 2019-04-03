@@ -39,7 +39,22 @@ class ArticleService extends Service {
       ['0']
     );
 
-    return rows;
+    const [{ total }] = await this.app.mysql.query(
+      `
+      SELECT
+        COUNT(*) AS total
+      FROM
+        article t1
+      WHERE
+        t1.deleted = ? ${cids} ${range_date} ${title}
+    `,
+      ['0']
+    );
+
+    return {
+      data: rows,
+      totalRow: total
+    };
   }
   async getone(id) {
     const rows = await this.app.mysql.query(

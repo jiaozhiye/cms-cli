@@ -17,7 +17,7 @@ class ArticleController extends Controller {
     const res = await this.service.article.getList(params);
     ctx.body = {
       code: 1,
-      data: res
+      ...res
     };
   }
   async getOne() {

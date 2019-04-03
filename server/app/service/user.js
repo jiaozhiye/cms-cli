@@ -40,11 +40,21 @@ class UserService extends Service {
       ['0']
     );
 
-    const rows2 = await this.app.mysql.query(`SELECT COUNT(*) AS total FROM user`);
+    const [{ total }] = await this.app.mysql.query(
+      `
+      SELECT 
+        COUNT(*) AS total 
+      FROM 
+        user t1
+      WHERE 
+        t1.deleted = ? ${role_id} ${name} ${sex}
+    `,
+      ['0']
+    );
 
     return {
       data: rows,
-      totalRow: rows2[0].total
+      totalRow: total
     };
   }
   async getone(id) {

@@ -15,7 +15,7 @@ import ArticlePanel from '@/components/ArticlePanel';
 
 import css from './index.module.less';
 
-import { Card, Drawer, Button, Icon, Divider, Popconfirm, message, Modal } from 'antd';
+import { Card, Drawer, Button, Icon, Divider, Popconfirm, message, Modal, Alert } from 'antd';
 
 @connect(
   state => ({
@@ -223,22 +223,40 @@ class Article extends Component {
     this.setState({ visible: false });
   };
 
+  // table 数据改变
+  tableChangeHandler = res => {
+    this.setState({ totalRow: res.totalRow });
+  };
+
   render() {
-    const { topFilterList, params, fetchApiFunc, columns, visible, formPanel, previewVisible, previewImage } = this.state;
+    const { topFilterList, params, fetchApiFunc, columns, visible, formPanel, previewVisible, previewImage, totalRow = 0 } = this.state;
+    const extraNode = (
+      <>
+        <ColumnFilter columns={columns} onChange={this.onColumnsChange} />
+        <Button type="primary" onClick={() => this.showDrawer('add')} style={{ marginLeft: 15 }}>
+          <Icon type="plus" /> 新增
+        </Button>
+      </>
+    );
+    const titleNode = (
+      <Alert
+        className="fl"
+        type="info"
+        showIcon
+        message={
+          <span>
+            提示：一共 <a style={{ fontWeight: 600 }}>{totalRow}</a> 条数据
+          </span>
+        }
+      />
+    );
     return (
       <>
         <Card size="small" className={css['card-bor']} bordered={false}>
           <TopFilter data={topFilterList} onSearch={this.searchHandler} />
         </Card>
-        <Card size="small" className={css['card-bor']} bordered={false}>
-          <div className="fr">
-            <ColumnFilter columns={columns} onChange={this.onColumnsChange} />
-            <Button type="primary" onClick={() => this.showDrawer('add')} style={{ marginLeft: 15 }}>
-              <Icon type="plus" /> 新增
-            </Button>
-          </div>
-        </Card>
-        <FilterTable columns={columns} params={params} fetch={fetchApiFunc} onTableChange={val => {}} />
+        <Card size="small" className={css['card-bor']} bordered={false} title={titleNode} extra={extraNode} />
+        <FilterTable columns={columns} params={params} fetch={fetchApiFunc} onTableChange={this.tableChangeHandler} />
         <Drawer visible={visible} destroyOnClose title={formPanel.title} width={800} onClose={this.closeDrawer}>
           <ArticlePanel {...formPanel} onSave={formDate => this.saveHandler(formDate)} />
         </Drawer>
