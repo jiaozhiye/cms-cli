@@ -9,7 +9,8 @@ class ArticleController extends Controller {
       pageNum: ctx.query.pageNum,
       pageSize: ctx.query.pageSize || 10,
       cids: ctx.queries.cid || [],
-      dates: ctx.queries.dates || [],
+      startTime: ctx.query.startTime || '',
+      endTime: ctx.query.endTime || '',
       title: ctx.query.title || '',
       sort: ctx.query.sort || ''
     };

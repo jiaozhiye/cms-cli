@@ -12,7 +12,7 @@ class ArticleService extends Service {
     // 所属分离
     const cids = options.cids.length ? ` AND t1.cid IN (${ctx.helper.escape(options.cids).join(',')})` : '';
     // 日期区间
-    const dates = options.dates.length === 2 ? ` AND (t1.modify_time > ${ctx.helper.escape(options.dates[0])} AND t1.modify_time < ${ctx.helper.escape(options.dates[1])})` : '';
+    const range_date = options.startTime && options.endTime ? ` AND (t1.modify_time > ${ctx.helper.escape(options.startTime)} AND t1.modify_time < ${ctx.helper.escape(options.endTime)})` : '';
     // 标题/拼音头
     const title = options.title ? ` AND (t1.title LIKE ${ctx.helper.escape(`%${options.title}%`)} OR t1.pinyin LIKE ${ctx.helper.escape(`%${options.title}%`)})` : '';
     // 排序
@@ -32,7 +32,7 @@ class ArticleService extends Service {
       FROM
         article t1, content t2, classify t3, user t4
       WHERE 
-        t1.content_id=t2.id AND t1.cid=t3.id AND t1.creator=t4.id AND t1.deleted = ? ${cids} ${dates} ${title}
+        t1.content_id=t2.id AND t1.cid=t3.id AND t1.creator=t4.id AND t1.deleted = ? ${cids} ${range_date} ${title}
       ${sort} 
       ${pagination}
     `,

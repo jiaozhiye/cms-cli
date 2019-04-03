@@ -47,7 +47,6 @@ class LoginService extends Service {
   }
   async logout() {
     const ctx = this.ctx;
-    ctx.helper.removeToken(this.config.auth.secret);
     ctx.session = null;
     return true;
   }

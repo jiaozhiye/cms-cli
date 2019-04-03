@@ -62,7 +62,7 @@ class Demo extends Component {
       {
         type: 'RANGE_DATE',
         label: '订单周期',
-        fieldName: 'range_date',
+        fieldName: 'startTime|endTime',
         style: { width: 240 }
       },
       {

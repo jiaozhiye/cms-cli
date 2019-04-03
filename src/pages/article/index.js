@@ -65,7 +65,7 @@ class Article extends Component {
       {
         type: 'RANGE_DATE',
         label: '日期',
-        fieldName: 'dates',
+        fieldName: 'startTime|endTime',
         style: { width: 220 }
       },
       {

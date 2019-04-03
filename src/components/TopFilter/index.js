@@ -132,6 +132,10 @@ class TopFilter extends Component {
             values[item.fieldName] = this.isTure(val) ? dateFormat(val) : undefined;
           } else if (item.type === 'RANGE_DATE') {
             values[item.fieldName] = this.isTure(val) ? val.map(date => dateFormat(date)) : [];
+            let field_names = item.fieldName.split('|');
+            values[field_names[0]] = values[item.fieldName][0];
+            values[field_names[1]] = values[item.fieldName][1];
+            delete values[item.fieldName];
           } else {
             values[item.fieldName] = this.isTure(val) ? val : undefined;
           }
