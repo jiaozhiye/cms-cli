@@ -61,7 +61,7 @@ class User extends Component {
       },
       {
         type: 'INPUT',
-        label: '搜索',
+        label: '搜索条件',
         fieldName: 'name',
         placeholder: '请输入用户名/拼音头...',
         style: { width: 200 }
