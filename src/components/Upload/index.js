@@ -14,10 +14,6 @@ class PanelUpload extends Component {
     previewImage: ''
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ fileList: nextProps.fileList });
-  }
-
   handlePreview = file => {
     this.setState({
       previewImage: file.url || file.thumbUrl,
