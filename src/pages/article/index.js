@@ -161,6 +161,16 @@ class Article extends Component {
     });
   };
 
+  // table 行选中状态改变
+  selectChangeHandler = selectedRowKeys => {
+    this.setState({ selectedRowKeys });
+  };
+
+  // 清空 table 行选中
+  clearSelectedKeys = () => {
+    this.setState({ selectedRowKeys: [] });
+  };
+
   // 保存/更新
   saveHandler = async formDate => {
     const { type } = this.state.formPanel;
@@ -190,6 +200,7 @@ class Article extends Component {
   // 头部搜索方法
   searchHandler = params => {
     this.setState({ params });
+    this.clearSelectedKeys();
   };
 
   // 重新加载数据
@@ -233,15 +244,6 @@ class Article extends Component {
     this.setState({ totalRow });
   };
 
-  // table 行选中状态改变
-  selectChangeHandler = selectedRowKeys => {
-    this.setState({ selectedRowKeys });
-  };
-
-  clearSelectedKeys = () => {
-    this.setState({ selectedRowKeys: [] });
-  };
-
   render() {
     const { topFilterList, params, fetchApiFunc, columns, visible, formPanel, previewVisible, previewImage, selectedRowKeys, totalRow = 0 } = this.state;
     const extraNode = (
@@ -259,8 +261,8 @@ class Article extends Component {
         showIcon
         message={
           <span>
-            提示：已选择 <a className={css['text-info']}>{selectedRowKeys.length}</a> 项，一共
-            <a className={css['text-info']}>{totalRow}</a> 条数据
+            提示：已选择<a className={css['text-info']}> {selectedRowKeys.length} </a>项，一共
+            <a className={css['text-info']}> {totalRow} </a>条数据
             <a style={{ marginLeft: 15 }} onClick={this.clearSelectedKeys}>
               清空
             </a>
