@@ -36,7 +36,8 @@ class Article extends Component {
       previewVisible: false,
       previewImage: '',
       topFilterList: this.createTopFilters(this.props),
-      columns: this.createColumns(this.props)
+      columns: this.createColumns(this.props),
+      selectedRowKeys: [] // table row 选中key的数组
     };
   }
 
@@ -232,8 +233,17 @@ class Article extends Component {
     this.setState({ totalRow });
   };
 
+  // table 行选中状态改变
+  selectChangeHandler = selectedRowKeys => {
+    this.setState({ selectedRowKeys });
+  };
+
+  clearSelectedKeys = () => {
+    this.setState({ selectedRowKeys: [] });
+  };
+
   render() {
-    const { topFilterList, params, fetchApiFunc, columns, visible, formPanel, previewVisible, previewImage, totalRow = 0 } = this.state;
+    const { topFilterList, params, fetchApiFunc, columns, visible, formPanel, previewVisible, previewImage, selectedRowKeys, totalRow = 0 } = this.state;
     const extraNode = (
       <>
         <ColumnFilter columns={columns} onChange={this.onColumnsChange} />
@@ -249,18 +259,32 @@ class Article extends Component {
         showIcon
         message={
           <span>
-            提示：一共 <a style={{ fontWeight: 600 }}>{totalRow}</a> 条数据
+            提示：已选择 <a className={css['text-info']}>{selectedRowKeys.length}</a> 项，一共
+            <a className={css['text-info']}>{totalRow}</a> 条数据
+            <a style={{ marginLeft: 15 }} onClick={this.clearSelectedKeys}>
+              清空
+            </a>
           </span>
         }
       />
     );
+    const tableParams = {
+      columns,
+      params,
+      fetch: fetchApiFunc,
+      rowSelection: {
+        selectedRowKeys,
+        onChange: this.selectChangeHandler
+      },
+      onTableChange: this.tableChangeHandler
+    };
     return (
       <>
         <Card size="small" className={css['card-bor']} bordered={false}>
           <TopFilter data={topFilterList} onSearch={this.searchHandler} />
         </Card>
-        <Card size="small" className={css['card-bor']} bordered={false} title={titleNode} extra={extraNode} />
-        <FilterTable columns={columns} params={params} fetch={fetchApiFunc} onTableChange={this.tableChangeHandler} />
+        <Card size="small" className={css['card-bor']} bordered={false} bodyStyle={{ padding: 0 }} title={titleNode} extra={extraNode} />
+        <FilterTable {...tableParams} />
         <Drawer visible={visible} destroyOnClose title={formPanel.title} width={800} onClose={this.closeDrawer}>
           <ArticlePanel {...formPanel} onSave={formDate => this.saveHandler(formDate)} />
         </Drawer>
