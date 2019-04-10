@@ -76,7 +76,7 @@ class PowerPanel extends Component {
     );
 
     return (
-      <>
+      <div style={{ paddingBottom: 30 }}>
         <Alert message="如果所有子菜单都无权限，那么其父级菜单请不要选中！" type="info" showIcon />
         {treeNodes}
         <div
@@ -95,7 +95,7 @@ class PowerPanel extends Component {
             保存
           </Button>
         </div>
-      </>
+      </div>
     );
   }
 }

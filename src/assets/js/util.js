@@ -24,10 +24,10 @@ function debounce(fn, delay) {
 // 函数节流
 function throttle(fn, delay) {
   return function(...args) {
-    let _nowTime = +new Date();
-    if (!fn._lastTime || _nowTime - fn._lastTime > delay) {
+    let nowTime = +new Date();
+    if (!fn.lastTime || nowTime - fn.lastTime > delay) {
       fn.apply(this, args);
-      fn._lastTime = _nowTime;
+      fn.lastTime = nowTime;
     }
   };
 }

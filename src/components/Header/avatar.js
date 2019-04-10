@@ -31,7 +31,7 @@ class HeadAvatar extends Component {
   render() {
     const { username } = this.state;
     const menu = (
-      <Menu>
+      <Menu style={{ width: 120 }}>
         <Menu.Item key="1">
           <Icon type="user" /> 个人中心
         </Menu.Item>

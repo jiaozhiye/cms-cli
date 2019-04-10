@@ -90,7 +90,7 @@ class Sidebar extends Component {
     ) : null;
     return (
       <Sider className={css['layout-sider']} collapsible collapsed={collapsed} trigger={null}>
-        <Logo collapsed={collapsed} title="Ant Design Pro" />
+        <Logo collapsed={collapsed} title="CMS 管理系统" />
         {menuNode}
       </Sider>
     );
