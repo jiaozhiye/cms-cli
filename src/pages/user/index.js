@@ -56,12 +56,12 @@ class User extends Component {
         label: '所属角色',
         fieldName: 'role_id',
         placeholder: '全部',
-        style: { width: 140 },
+        style: { width: 180 },
         list: utils.createFilterList(roles)
       },
       {
         type: 'INPUT',
-        label: '搜索条件',
+        label: '搜索',
         fieldName: 'name',
         placeholder: '请输入用户名/拼音头...',
         style: { width: 200 }

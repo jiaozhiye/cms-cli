@@ -7,7 +7,7 @@ class PageTable extends Component {
   state = {
     data: [],
     filters: {}, // table 上的筛选条件
-    pagination: { current: config.table.pageNum, total: 0, pageSize: config.table.pageSize },
+    pagination: { current: config.table.pageNum, total: 0, pageSize: config.table.pageSize, showQuickJumper: true },
     loading: false
   };
 

@@ -28,10 +28,10 @@ class Role extends Component {
     return [
       {
         type: 'INPUT',
-        label: '搜索条件',
+        label: '搜索',
         fieldName: 'name',
         placeholder: '请输入角色名称...',
-        style: { width: 220 }
+        style: { width: 200 }
       }
     ];
   };

@@ -4,13 +4,17 @@ import { dateToMoment, dateFormat } from '@/assets/js/util';
 
 import css from './index.module.less';
 
-import { Form, Icon, Input, Button, Select, DatePicker, TreeSelect } from 'antd';
+import { Form, Row, Col, Icon, Input, Button, Select, DatePicker, TreeSelect } from 'antd';
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TreeNode } = TreeSelect;
 
 class TopFilter extends Component {
+  state = {
+    expand: false
+  };
+
   componentDidMount() {
     this.initial();
   }
@@ -121,6 +125,38 @@ class TopFilter extends Component {
     });
   };
 
+  createFormLayout = () => {
+    const { expand } = this.state;
+    const buttonNode = (
+      <Col span={6} key="-">
+        <FormItem>
+          <Button type="primary" htmlType="submit">
+            搜索
+          </Button>
+          <Button style={{ marginLeft: 10 }} onClick={this.handleReset}>
+            重置
+          </Button>
+          <a style={{ marginLeft: 10, fontSize: 12 }} onClick={this.toggle}>
+            {expand ? '收起' : '展开'} <Icon type={expand ? 'up' : 'down'} />
+          </a>
+        </FormItem>
+      </Col>
+    );
+    const formItems = this.createFormItem().filter(item => item !== null);
+    const count = expand ? formItems.length : 3;
+    const colFormItems = formItems.map((Node, i) => (
+      <Col span={6} key={i} style={{ display: i < count ? 'block' : 'none' }}>
+        {Node}
+      </Col>
+    ));
+    return [...colFormItems, buttonNode];
+  };
+
+  toggle = () => {
+    const { expand } = this.state;
+    this.setState({ expand: !expand });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -160,15 +196,7 @@ class TopFilter extends Component {
   render() {
     return (
       <Form layout="inline" onSubmit={this.handleSubmit}>
-        {this.createFormItem()}
-        <FormItem>
-          <Button type="primary" htmlType="submit">
-            搜索
-          </Button>
-          <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-            重置
-          </Button>
-        </FormItem>
+        <Row>{this.createFormLayout()}</Row>
       </Form>
     );
   }

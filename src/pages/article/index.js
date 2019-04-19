@@ -71,10 +71,10 @@ class Article extends Component {
       },
       {
         type: 'INPUT',
-        label: '搜索条件',
+        label: '搜索',
         fieldName: 'title',
         placeholder: '请输入标题名称/拼音头...',
-        style: { width: 220 }
+        style: { width: 200 }
       }
     ];
   };
