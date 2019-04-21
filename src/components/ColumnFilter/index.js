@@ -1,67 +1,111 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Icon, Dropdown, Checkbox } from 'antd';
-
+import { Icon, Dropdown, Tree } from 'antd';
 import css from './index.module.less';
+const { TreeNode } = Tree;
 
 class ColumnFilter extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      width: this.props.width ? this.props.width : 150,
-      popVisible: false,
-      columnNames: this.props.columns.map(item => item.dataIndex)
-    };
-  }
+  state = {
+    treeData: this.props.columns,
+    checkedKeys: this.props.columns.map(item => item.dataIndex),
+    popVisible: false,
+    width: this.props.width ? this.props.width : 120
+  };
 
   onVisibleChange = popVisible => {
     this.setState({ popVisible });
   };
 
-  onColumnsChange = checkedValue => {
-    const { columns, onChange } = this.props;
-    this.setState({ columnNames: checkedValue });
-    const newColnums = columns.map(item => {
-      if (!checkedValue.find(val => val === item.dataIndex)) {
-        item.hidden = true;
+  onCheck = checkedKeys => {
+    this.setState({ checkedKeys });
+    const newColumns = this.state.treeData.map(column => {
+      if (checkedKeys.includes(column.dataIndex)) {
+        column.hidden = false;
       } else {
-        item.hidden = false;
+        column.hidden = true;
       }
-      return item;
+      return column;
     });
-    if (onChange) {
-      onChange(newColnums);
-    }
+    this.props.onChange && this.props.onChange(newColumns);
   };
 
-  createPopupItems = () => {
-    return this.props.columns.map(item => {
-      return (
-        <div key={item.dataIndex} className={classnames(css.select_cols_item)}>
-          <Checkbox className={classnames(css.label)} value={item.dataIndex}>
-            {item.title}
-          </Checkbox>
-        </div>
-      );
+  onDrop = info => {
+    // console.log(info);
+    const dropKey = info.node.props.eventKey;
+    const dragKey = info.dragNode.props.eventKey;
+    const dropPos = info.node.props.pos.split('-');
+    const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
+    // console.log(dragKey, dropKey, dropPosition);
+
+    const data = [...this.state.treeData];
+    const loop = (data, key, callback) => {
+      data.forEach((item, index, arr) => {
+        if (item.dataIndex === key) {
+          return callback(item, index, arr);
+        }
+        if (item.children) {
+          return loop(item.children, key, callback);
+        }
+      });
+    };
+
+    // Find dragObject
+    let dragObj;
+    loop(data, dragKey, (item, index, arr) => {
+      arr.splice(index, 1);
+      dragObj = item;
+    });
+
+    if (!info.dropToGap) {
+      // Drop on the content
+      return;
+    } else {
+      let ar;
+      let i;
+      loop(data, dropKey, (item, index, arr) => {
+        ar = arr;
+        i = index;
+      });
+      if (dropPosition === -1) {
+        ar.splice(i, 0, dragObj);
+      } else {
+        ar.splice(i + 1, 0, dragObj);
+      }
+    }
+
+    this.setState({ treeData: data });
+    this.props.onChange && this.props.onChange(data);
+  };
+
+  createTreeItems = () => {
+    return this.props.columns.map(column => {
+      if (Array.isArray(column.children) && column.children.length) {
+        return (
+          <TreeNode key={column.dataIndex} title={column.title}>
+            {this.createTreeItems(column.children)}
+          </TreeNode>
+        );
+      }
+      return <TreeNode key={column.dataIndex} title={column.title} />;
     });
   };
 
   popup = () => (
     <div className={classnames(css.select_cols_popup)}>
-      <Checkbox.Group onChange={this.onColumnsChange} value={this.state.columnNames}>
-        {this.createPopupItems()}
-      </Checkbox.Group>
+      <Tree className={classnames(css['draggable-tree'])} defaultExpandAll blockNode checkable draggable checkedKeys={this.state.checkedKeys} onCheck={this.onCheck} onDrop={this.onDrop}>
+        {this.createTreeItems()}
+      </Tree>
     </div>
   );
 
   render() {
     const { width, popVisible } = this.state;
     return (
-      <Dropdown overlay={this.popup()} style={{ width }} visible={popVisible} trigger={['click']} onVisibleChange={this.onVisibleChange}>
+      <Dropdown overlay={this.popup()} overlayStyle={{ minWidth: width }} visible={popVisible} trigger={['click']} onVisibleChange={this.onVisibleChange}>
         <span className={classnames(css.down)}>
           <Icon className={classnames(css.icon)} type="filter" />
-          <span>选择数据项</span>
+          <span>排选数据列</span>
         </span>
       </Dropdown>
     );

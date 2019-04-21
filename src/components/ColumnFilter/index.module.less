@@ -8,16 +8,17 @@
     margin-right: 5px;
   }
 }
-
 .select_cols_popup {
   min-width: 100px;
   border: 1px solid #e8e8e8;
   background: #fff;
-  padding: 6px 8px;
-  .select_cols_item {
-    padding: 4px;
-    .label {
-      width: 100%;
+  padding: 0 8px 0 10px;
+  .draggable-tree > li > span {
+    &:first-of-type {
+      display: none;
+    }
+    &:last-of-type {
+      width: calc(100% - 24px) !important;
     }
   }
 }

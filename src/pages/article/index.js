@@ -119,7 +119,10 @@ class Article extends Component {
       {
         title: '排序',
         dataIndex: 'sort',
-        sorter: true
+        width: 120,
+        sorter: true,
+        editable: true,
+        editType: 'input'
       },
       {
         title: '作者',
@@ -239,7 +242,12 @@ class Article extends Component {
     this.setState({ visible: false });
   };
 
-  // table 数据改变
+  // table record 数据改变时
+  cellValChangeHandler = data => {
+    console.log(data);
+  };
+
+  // table 请求改变时
   tableChangeHandler = ({ totalRow }) => {
     this.setState({ totalRow });
   };
@@ -278,6 +286,8 @@ class Article extends Component {
         selectedRowKeys,
         onChange: this.selectChangeHandler
       },
+      isEdit: true,
+      onCellValChange: this.cellValChangeHandler,
       onTableChange: this.tableChangeHandler
     };
     return (

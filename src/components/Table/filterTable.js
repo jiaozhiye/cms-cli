@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { dateToMoment } from '@/assets/js/util';
 import { Input, DatePicker, Button, Row, Col } from 'antd';
+
+import EditTable from './editTable';
 import PageTable from './pageTable';
 
 import css from './filterTable.module.less';
@@ -11,18 +13,16 @@ const { RangePicker } = DatePicker;
 
 class FilterTable extends Component {
   // 创建筛选列
-  createFilterColumns = columns => {
-    const filterColumns = columns.map(item => {
+  createFilterColumns = () => {
+    const filterColumns = this.props.columns.map(column => {
       // 没有开启筛选, 就没有筛选
-      if (!item.filter) {
-        return item;
-      }
+      if (!column.filter) return column;
       // 合并对象
-      const filterProps = this.getColumnSearchProps(item.filterType, item);
-      return { ...item, ...filterProps };
+      const filterProps = this.getColumnSearchProps(column.filterType, column);
+      return { ...column, ...filterProps };
     });
     // 筛选 展示/隐藏 字段
-    return filterColumns.filter(item => !item.hidden);
+    return filterColumns.filter(column => !column.hidden);
   };
 
   // 获取筛选列属性
@@ -57,7 +57,6 @@ class FilterTable extends Component {
     if (type === 'daterange') {
       return {
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
-          // console.log(selectedKeys);
           if (selectedKeys.length > 0) {
             if (selectedKeys.every(str => str === '')) {
               selectedKeys = [];
@@ -123,12 +122,16 @@ class FilterTable extends Component {
   };
 
   render() {
-    return <PageTable {...this.props} columns={this.createFilterColumns(this.props.columns)} />;
+    return this.props.isEdit ? <EditTable {...this.props} columns={this.createFilterColumns()} /> : <PageTable {...this.props} columns={this.createFilterColumns()} />;
   }
 }
 
 FilterTable.propTypes = {
   columns: PropTypes.array.isRequired
+};
+
+FilterTable.defaultProps = {
+  isEdit: false
 };
 
 export default FilterTable;
