@@ -8,11 +8,10 @@ import { Input, InputNumber, Form } from 'antd';
 const FormItem = Form.Item;
 
 class EditTable extends Component {
+  timer = null;
+
   state = {
-    prevhandle: {
-      dataIndex: '',
-      record: null
-    }
+    prevhandle: { dataIndex: '', record: null }
   };
 
   componentDidMount() {
@@ -62,9 +61,14 @@ class EditTable extends Component {
       prevhandle.record[prevhandle.dataIndex] = getFieldValue(property);
     }
     // 改变 prevhandle 状态
-    this.setState({ prevhandle: { dataIndex, record } }, () => {
-      this.props.onCellValChange(this.pageTableComponent.state.data);
-    });
+    this.setState({ prevhandle: { dataIndex, record } });
+  };
+
+  createCellChangeData = (id, key, val) => {
+    this.timer && clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.props.onCellValChange({ id, [key]: val });
+    }, 500);
   };
 
   getColumnEditProps = (type, column) => {
@@ -84,11 +88,12 @@ class EditTable extends Component {
     };
     if (type === 'input') {
       column.render = (text, record) => {
+        const { id } = record;
         return !record[`${dataIndex}Editable`] ? (
           <span>{text}</span>
         ) : (
           <FormItem className={css.editableCell}>
-            {getFieldDecorator(this.getPropertyKey(record.id, dataIndex), {
+            {getFieldDecorator(this.getPropertyKey(id, dataIndex), {
               rules: [
                 {
                   required: true,
@@ -96,7 +101,7 @@ class EditTable extends Component {
                 }
               ],
               initialValue: record[dataIndex]
-            })(typeof record[dataIndex] === 'string' ? <Input /> : <InputNumber />)}
+            })(typeof record[dataIndex] === 'string' ? <Input onChange={e => this.createCellChangeData(id, dataIndex, e.target.value)} /> : <InputNumber onChange={e => this.createCellChangeData(id, dataIndex, e)} />)}
           </FormItem>
         );
       };
@@ -105,15 +110,7 @@ class EditTable extends Component {
   };
 
   render() {
-    return (
-      <PageTable
-        ref={component => {
-          this.pageTableComponent = component;
-        }}
-        {...this.props}
-        columns={this.createEditableColumns()}
-      />
-    );
+    return <PageTable {...this.props} columns={this.createEditableColumns()} />;
   }
 }
 

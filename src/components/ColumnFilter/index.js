@@ -79,7 +79,7 @@ class ColumnFilter extends Component {
   };
 
   createTreeItems = () => {
-    return this.props.columns.map(column => {
+    return this.state.treeData.map(column => {
       if (Array.isArray(column.children) && column.children.length) {
         return (
           <TreeNode key={column.dataIndex} title={column.title}>
