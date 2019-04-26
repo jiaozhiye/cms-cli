@@ -32,6 +32,18 @@ function throttle(fn, delay) {
   };
 }
 
+// 参数根节点是否包含目标节点
+function contains(root, target) {
+  let node = target;
+  while (node) {
+    if (node === root) {
+      return true;
+    }
+    node = node.parentNode;
+  }
+  return false;
+}
+
 // 异步等待
 function sleep(time) {
   return new Promise(resolve => setTimeout(resolve, time));
@@ -57,4 +69,4 @@ function dateTimeToMoment(dateStr) {
   return moment(dateStr, 'YYYY-MM-DD HH:mm:ss');
 }
 
-export { getRandom, debounce, throttle, sleep, dateFormat, dateTimeFormat, dateToMoment, dateTimeToMoment };
+export { getRandom, debounce, throttle, contains, sleep, dateFormat, dateTimeFormat, dateToMoment, dateTimeToMoment };
