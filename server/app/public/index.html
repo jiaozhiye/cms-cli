@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 咱们系统接收父窗口 jwt 的页面，并做本地存储 -->
+    <div>此页面需要被父窗口iframe标签引用，接收父级窗口的jwt，用于ajax请求登陆校验。 -> 来自父窗口的消息：<span id="sp1"></span></div>
+    <script>
+      // 注册消息事件监听，对来自父窗口的消息进行处理
+      window.addEventListener(
+        'message',
+        function({ data }) {
+          if (data.code === 1) {
+            setLocalStorage(data.jwt);
+          }
+        },
+        false
+      );
+      // 设置 jwt 为本地存储
+      function setLocalStorage(jwt) {
+        document.getElementById('sp1').innerHTML = jwt;
+        localStorage.setItem('token', jwt);
+      }
+    </script>
+  </body>
+</html>

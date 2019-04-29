@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import addEventListener from 'add-dom-event-listener';
 
 import PageTable from './pageTable';
 import css from './editTable.module.less';
@@ -7,33 +8,25 @@ import css from './editTable.module.less';
 import { Input, InputNumber, Form } from 'antd';
 const FormItem = Form.Item;
 
+@Form.create({
+  onValuesChange: (props, changedValues) => {
+    // props.onCellValChange(changedValues);
+  }
+})
 class EditTable extends Component {
-  timer = null;
-
   state = {
     prevhandle: { dataIndex: '', record: null }
   };
 
   componentDidMount() {
-    this.bindDocumentEvent();
+    this.documentEvent = addEventListener(document, 'click', e => {
+      this.cancelPreviousHandle();
+    });
   }
 
   componentWillUnmount() {
-    this.removeDocumentEvent();
+    this.documentEvent.remove();
   }
-
-  bindDocumentEvent = () => {
-    document.addEventListener('click', this.documentEventHandler, false);
-  };
-
-  documentEventHandler = e => {
-    e.stopPropagation();
-    this.cancelPreviousHandle();
-  };
-
-  removeDocumentEvent = () => {
-    document.removeEventListener('click', this.documentEventHandler);
-  };
 
   getPropertyKey = (id, dataIndex) => {
     return `${id}|${dataIndex}`;
@@ -58,17 +51,15 @@ class EditTable extends Component {
       prevhandle.record[`${prevhandle.dataIndex}Editable`] = false;
       // 获取 form 表单数据
       const property = this.getPropertyKey(prevhandle.record.id, prevhandle.dataIndex);
-      prevhandle.record[prevhandle.dataIndex] = getFieldValue(property);
+      const newValue = getFieldValue(property);
+      const preValue = prevhandle.record[prevhandle.dataIndex];
+      if (preValue !== newValue) {
+        prevhandle.record[prevhandle.dataIndex] = newValue;
+        this.props.onCellValChange({ [`${prevhandle.record.id}|${prevhandle.dataIndex}`]: newValue });
+      }
     }
     // 改变 prevhandle 状态
     this.setState({ prevhandle: { dataIndex, record } });
-  };
-
-  createCellChangeData = (id, key, val) => {
-    this.timer && clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.props.onCellValChange({ id, [key]: val });
-    }, 500);
   };
 
   getColumnEditProps = (type, column) => {
@@ -101,7 +92,7 @@ class EditTable extends Component {
                 }
               ],
               initialValue: record[dataIndex]
-            })(typeof record[dataIndex] === 'string' ? <Input onChange={e => this.createCellChangeData(id, dataIndex, e.target.value)} /> : <InputNumber onChange={e => this.createCellChangeData(id, dataIndex, e)} />)}
+            })(typeof record[dataIndex] === 'string' ? <Input /> : <InputNumber />)}
           </FormItem>
         );
       };
@@ -119,4 +110,4 @@ EditTable.propTypes = {
   onCellValChange: PropTypes.func.isRequired
 };
 
-export default Form.create()(EditTable);
+export default EditTable;

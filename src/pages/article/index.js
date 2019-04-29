@@ -244,7 +244,7 @@ class Article extends Component {
 
   // table record 数据改变时
   cellValChangeHandler = data => {
-    console.log(data);
+    console.log('可编辑单元格数据改变', data);
   };
 
   // table 请求改变时
@@ -297,7 +297,7 @@ class Article extends Component {
         </Card>
         <Card size="small" className={css['card-bor']} bordered={false} bodyStyle={{ padding: 0 }} title={titleNode} extra={extraNode} />
         <FilterTable {...tableParams} />
-        <Drawer visible={visible} destroyOnClose title={formPanel.title} width={800} onClose={this.closeDrawer}>
+        <Drawer visible={visible} destroyOnClose title={formPanel.title} width="60%" onClose={this.closeDrawer}>
           <ArticlePanel {...formPanel} onSave={formDate => this.saveHandler(formDate)} />
         </Drawer>
         <Modal visible={previewVisible} bodyStyle={{ padding: 10 }} footer={null} onCancel={() => this.setState({ previewVisible: false })}>
