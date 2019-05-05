@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { dateToMoment } from '@/assets/js/util';
+import util from '@/utils';
 import { Input, DatePicker, Button, Row, Col } from 'antd';
 
 import EditTable from './editTable';
@@ -61,7 +61,7 @@ class FilterTable extends Component {
             if (selectedKeys.every(str => str === '')) {
               selectedKeys = [];
             } else {
-              selectedKeys = selectedKeys.map(dateStr => dateToMoment(dateStr));
+              selectedKeys = selectedKeys.map(dateStr => util.dateToMoment(dateStr));
             }
           }
           return (

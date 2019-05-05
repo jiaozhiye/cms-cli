@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { dateToMoment, dateFormat } from '@/assets/js/util';
+import util from '@/utils';
 
 import css from './index.module.less';
 
@@ -100,7 +100,7 @@ class TopFilter extends Component {
     return (
       <FormItem label={label} key={fieldName}>
         {getFieldDecorator(fieldName, {
-          initialValue: initialValue ? dateToMoment(initialValue) : initialValue
+          initialValue: initialValue ? util.dateToMoment(initialValue) : initialValue
         })(<DatePicker placeholder={placeholder} style={{ ...style }} format={dateFormat} />)}
       </FormItem>
     );
@@ -113,7 +113,7 @@ class TopFilter extends Component {
     return (
       <FormItem label={label} key={fieldName}>
         {getFieldDecorator(fieldName, {
-          initialValue: initialValue ? [dateToMoment(initialValue[0]), dateToMoment(initialValue[1])] : initialValue
+          initialValue: initialValue ? [util.dateToMoment(initialValue[0]), util.dateToMoment(initialValue[1])] : initialValue
         })(<RangePicker style={{ ...style }} format={dateFormat} />)}
       </FormItem>
     );
@@ -165,9 +165,9 @@ class TopFilter extends Component {
         data.forEach(item => {
           const val = values[item.fieldName];
           if (item.type === 'DATE') {
-            values[item.fieldName] = this.isTure(val) ? dateFormat(val) : undefined;
+            values[item.fieldName] = this.isTure(val) ? util.dateFormat(val) : undefined;
           } else if (item.type === 'RANGE_DATE') {
-            values[item.fieldName] = this.isTure(val) ? val.map(date => dateFormat(date)) : [];
+            values[item.fieldName] = this.isTure(val) ? val.map(date => util.dateFormat(date)) : [];
             let field_names = item.fieldName.split('|');
             values[field_names[0]] = values[item.fieldName][0];
             values[field_names[1]] = values[item.fieldName][1];
