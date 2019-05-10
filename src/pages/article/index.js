@@ -286,7 +286,6 @@ class Article extends Component {
         selectedRowKeys,
         onChange: this.selectChangeHandler
       },
-      isEdit: true,
       onCellValChange: this.cellValChangeHandler,
       onTableChange: this.tableChangeHandler
     };

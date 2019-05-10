@@ -12,6 +12,10 @@ import css from './filterTable.module.less';
 const { RangePicker } = DatePicker;
 
 class FilterTable extends Component {
+  state = {
+    isEditable: this.props.columns.some(column => column.editable)
+  };
+
   // 创建筛选列
   createFilterColumns = () => {
     const filterColumns = this.props.columns.map(column => {
@@ -122,16 +126,12 @@ class FilterTable extends Component {
   };
 
   render() {
-    return this.props.isEdit ? <EditTable {...this.props} columns={this.createFilterColumns()} /> : <PageTable {...this.props} columns={this.createFilterColumns()} />;
+    return this.state.isEditable ? <EditTable {...this.props} columns={this.createFilterColumns()} /> : <PageTable {...this.props} columns={this.createFilterColumns()} />;
   }
 }
 
 FilterTable.propTypes = {
   columns: PropTypes.array.isRequired
-};
-
-FilterTable.defaultProps = {
-  isEdit: false
 };
 
 export default FilterTable;
