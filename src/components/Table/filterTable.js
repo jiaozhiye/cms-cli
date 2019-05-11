@@ -20,7 +20,9 @@ class FilterTable extends Component {
   createFilterColumns = () => {
     const filterColumns = this.props.columns.map(column => {
       // 没有开启筛选, 就没有筛选
-      if (!column.filter) return column;
+      if (!column.filter) {
+        return { ...column };
+      }
       // 合并对象
       const filterProps = this.getColumnSearchProps(column.filterType, column);
       return { ...column, ...filterProps };
