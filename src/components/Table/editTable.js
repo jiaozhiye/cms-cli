@@ -64,7 +64,7 @@ class EditTable extends Component {
 
   getColumnEditProps = (type, column) => {
     const { getFieldDecorator } = this.props.form;
-    const { dataIndex, title } = column;
+    const { dataIndex, editRules = [] } = column;
     column.onCell = (record, rowIndex) => {
       return {
         onClick: event => {
@@ -85,13 +85,8 @@ class EditTable extends Component {
         ) : (
           <FormItem className={css.editableCell}>
             {getFieldDecorator(this.getPropertyKey(id, dataIndex), {
-              rules: [
-                {
-                  required: true,
-                  message: `Please Input ${title}!`
-                }
-              ],
-              initialValue: record[dataIndex]
+              initialValue: record[dataIndex],
+              rules: editRules
             })(typeof record[dataIndex] === 'string' ? <Input /> : <InputNumber />)}
           </FormItem>
         );

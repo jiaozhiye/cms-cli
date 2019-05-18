@@ -122,7 +122,13 @@ class Article extends Component {
         width: 120,
         sorter: true,
         editable: true,
-        editType: 'input'
+        editType: 'input',
+        editRules: [
+          {
+            required: true,
+            message: `排序不能为空！`
+          }
+        ]
       },
       {
         title: '作者',
