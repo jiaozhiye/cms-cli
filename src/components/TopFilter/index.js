@@ -15,17 +15,6 @@ class TopFilter extends Component {
     expand: false
   };
 
-  componentDidMount() {
-    this.initial();
-  }
-
-  initial = () => {
-    const { data, onSearch } = this.props;
-    const params = {};
-    data.forEach(item => (params[item.fieldName] = item.initialValue));
-    onSearch(params);
-  };
-
   createTreeSelect = arr => {
     return arr.map(item => {
       if (Array.isArray(item.children) && item.children.length) {

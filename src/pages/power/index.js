@@ -89,7 +89,7 @@ class Role extends Component {
 
   // 重新加载数据
   reloadHandler = () => {
-    const params = { ...this.state.params, _: Date.now() };
+    const params = { ...this.state.params };
     this.setState({ params });
   };
 

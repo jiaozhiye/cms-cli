@@ -16,13 +16,12 @@ class PageTable extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (JSON.stringify(nextProps.params) !== JSON.stringify(this.props.params)) {
-      if (!nextProps.params._) {
-        // toperFilter 条件变化
+    if (nextProps.params !== this.props.params) {
+      // toperFilter 条件变化
+      if (JSON.stringify(nextProps.params) !== JSON.stringify(this.props.params)) {
         this.paramsChange();
       } else {
         // 执行刷新
-        delete nextProps.params._;
         this.getRecords();
       }
     }
